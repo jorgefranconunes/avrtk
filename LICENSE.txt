@@ -1,0 +1,8 @@
+Copyright (c) 2014 by Jorge Nunes
+
+AvrTk is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License (version 3) as published
+by the Free Software Foundation
+(http://www.gnu.org/licenses/licenses.html). See COPYING.txt file for
+the full text of the license.
+
