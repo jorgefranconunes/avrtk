@@ -1,3 +1,4 @@
+# -*- mode: makefile-gmake; -*-
 ###########################################################################
 #
 # Copyright (c) 2014 Jorge Nunes, All Rights Reserved.

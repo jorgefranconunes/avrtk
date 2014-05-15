@@ -4,9 +4,9 @@
 #
 ###########################################################################
 
-include ../make/defs.make
+B_PROJ_ROOT = ..
 
-include ../Makefile.conf
+include $(B_PROJ_ROOT)/make/avrtk.make
 
 
 B_PROJ = avrtk-test
@@ -18,7 +18,7 @@ B_CC_FLAGS = -g -Os -Wall -std=gnu99
 # The core library, to be compiled with the host GCC.
 #
 
-B_MAIN_C_SRCDIR = ../avrtk-core/src/main/c
+B_MAIN_C_SRCDIR = $(B_PROJ_ROOT)/avrtk-core/src/main/c
 
 B_MAIN_C_SOURCES = \
 	avrtk/events/Event.c \
@@ -71,5 +71,5 @@ B_TEST_CXX_SOURCES = \
 	avrtk/ticks/TickEventTypeTest.cpp
 
 
-include ../make/lib.make
+include $(B_PROJ_ROOT)/make/lib.make
 

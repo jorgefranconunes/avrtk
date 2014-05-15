@@ -1,3 +1,4 @@
+# -*- mode: makefile-gmake; -*-
 ###########################################################################
 #
 # Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
@@ -6,7 +7,7 @@
 
 B_PROJ = dummy
 
-B_PROJ_VERSION = 0.0.1
+#B_PROJ_VERSION = 0.0.1
 
 
 

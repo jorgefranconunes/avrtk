@@ -4,7 +4,9 @@
 #
 ###########################################################################
 
-include ../../make/defs.make
+B_PROJ_ROOT = ../..
+
+include $(B_PROJ_ROOT)/make/avrtk.make
 
 
 B_PROJ = Blink101
@@ -27,11 +29,11 @@ B_MAIN_C_SOURCES = \
 	Blink101.c
 
 
-include ../../make/app.make 
+include $(B_PROJ_ROOT)/make/app.make 
 
 
-all : ../../bin/$(B_PROJ).hex
+all : $(B_PROJ_ROOT)/bin/$(B_PROJ).hex
 
-../../bin/$(B_PROJ).hex : $(B_MAIN_TARGET)
+$(B_PROJ_ROOT)/bin/$(B_PROJ).hex : $(B_MAIN_TARGET)
 	avr-objcopy -O ihex -R .eeprom $< $@
 

@@ -4,7 +4,9 @@
 #
 ###########################################################################
 
-include ../make/defs.make
+B_PROJ_ROOT = ..
+
+include $(B_PROJ_ROOT)/make/avrtk.make
 
 
 B_PROJ = avrtk-core

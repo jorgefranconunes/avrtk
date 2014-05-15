@@ -4,7 +4,9 @@
 #
 ###########################################################################
 
-include ../../make/defs.make
+B_PROJ_ROOT = ../..
+
+include $(B_PROJ_ROOT)/make/avrtk.make
 
 
 B_PROJ = BlinkMany
@@ -25,25 +27,25 @@ B_RANLIB = avr-ranlib
 
 B_MAIN_CC_FLAGS = \
 	$(B_CC_FLAGS) \
-	-I ../../avrtk-core/src/main/c \
-	-I ../../avrtk-atm328p/src/main/c
+	-I $(B_PROJ_ROOT)/avrtk-core/src/main/c \
+	-I $(B_PROJ_ROOT)/avrtk-atm328p/src/main/c
 
 B_MAIN_LD_FLAGS = \
 	$(B_LD_FLAGS) \
-	-L ../../avrtk-atm328p/target \
+	-L $(B_PROJ_ROOT)/avrtk-atm328p/target \
 	-lavrtk-atm328p-$(B_PROJ_VERSION) \
-	-L ../../avrtk-core/target \
+	-L $(B_PROJ_ROOT)/avrtk-core/target \
 	-lavrtk-core-$(B_PROJ_VERSION)
 
 B_MAIN_C_SOURCES = \
 	BlinkMany.c
 
 
-include ../../make/app.make 
+include $(B_PROJ_ROOT)/make/app.make 
 
 
-all : ../../bin/$(B_PROJ).hex
+all : $(B_PROJ_ROOT)/bin/$(B_PROJ).hex
 
-../../bin/$(B_PROJ).hex : $(B_MAIN_TARGET)
+$(B_PROJ_ROOT)/bin/$(B_PROJ).hex : $(B_MAIN_TARGET)
 	avr-objcopy -O ihex -R .eeprom $< $@
 

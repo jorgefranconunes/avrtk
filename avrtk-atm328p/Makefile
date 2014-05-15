@@ -4,7 +4,9 @@
 #
 ###########################################################################
 
-include ../make/defs.make
+B_PROJ_ROOT = ..
+
+include $(B_PROJ_ROOT)/make/avrtk.make
 
 
 B_PROJ = avrtk-atm328p
@@ -23,12 +25,12 @@ B_RANLIB = avr-ranlib
 
 B_MAIN_CC_FLAGS = \
 	$(B_CC_FLAGS) \
-	-I ../avrtk-core/src/main/c
+	-I $(B_PROJ_ROOT)/avrtk-core/src/main/c
 
 B_MAIN_C_SOURCES = \
 	avrtk/sys/atm328p/Atm328pTaskService.c \
 	avrtk/sys/atm328p/Atm328pTickSource.c
 
 
-include ../make/lib.make
+include $(B_PROJ_ROOT)/make/lib.make
 
