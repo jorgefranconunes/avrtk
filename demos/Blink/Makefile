@@ -34,7 +34,7 @@ B_MAIN_LD_FLAGS = \
 	$(B_LD_FLAGS) \
 	-L $(B_PROJ_ROOT)/avrtk-atm328p/target \
 	-lavrtk-atm328p-$(B_PROJ_VERSION) \
-	-L $(B_PROJ_ROOT)/avrtk-core/target \
+	-L $(B_PROJ_ROOT)/avrtk-core-atm328p/target \
 	-lavrtk-core-$(B_PROJ_VERSION)
 
 B_MAIN_C_SOURCES = \

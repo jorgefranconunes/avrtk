@@ -5,8 +5,8 @@
 ###########################################################################
 
 MODULES = \
-	avrtk-core \
 	avrtk-test \
+	avrtk-core-atm328p \
 	avrtk-atm328p \
 	demos/Blink \
 	demos/Blink101 \
