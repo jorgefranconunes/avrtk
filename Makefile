@@ -6,7 +6,6 @@
 
 MODULES = \
 	avrtk-test \
-	avrtk-core-atm328p \
 	avrtk-atm328p \
 	demos/Blink \
 	demos/Blink101 \
@@ -19,14 +18,8 @@ MODULES = \
 
 default : all
 
-all : Makefile.conf
-	@for module in $(MODULES) ; do make -C $$module $@ || exit 1; done
-
-check : Makefile.conf
-	@for module in $(MODULES) ; do make -C $$module $@ || exit 1; done
-
-clean : Makefile.conf
-	@for module in $(MODULES) ; do make -C $$module $@ || exit 1; done
+all check clean : Makefile.conf
+	@for module in $(MODULES) ; do $(MAKE) -C $$module $@ || exit 1; done
 
 
 

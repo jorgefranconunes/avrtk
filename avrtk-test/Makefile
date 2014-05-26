@@ -11,7 +11,12 @@ include $(B_PROJ_ROOT)/make/avrtk.make
 
 B_PROJ = avrtk-test
 
+B_CC       = gcc
 B_CC_FLAGS = -g -Os -Wall -std=gnu99
+
+B_LD     = g++
+B_AR     = ar
+B_RANLIB = ranlib
 
 
 #
