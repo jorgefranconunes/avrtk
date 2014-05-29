@@ -24,8 +24,6 @@ static void blinkCallback(void);
 
 static bool _isLedOn = true;
 
-static CallbackTask callbackTaskData;
-static Task        *task;
 
 
 
@@ -44,9 +42,12 @@ int main(void) {
     /* Set pin 5 of PORTD for output*/
     DDRD |= _BV(DDD5);
 
-    TaskService *taskService = SysTaskService_get();
+    CallbackTask  callbackTaskData;
+    CallbackTask *callbackTask =
+        CallbackTask_init(&callbackTaskData, &blinkCallback);
+    Task         *task         = CallbackTask_asTask(callbackTask);
+    TaskService  *taskService  = SysTaskService_get();
     
-    task = CallbackTask_build(&callbackTaskData, &blinkCallback);
     TaskService_addPeriodicTask(taskService, task, 0L, BLINK_DELAY_MS);
 
     /* Run forever. */

@@ -26,31 +26,13 @@ static TaskInterface interface = {
  *
  **************************************************************************/
 
-void CallbackTask_init(CallbackTask *self,
-                       void        (*callback)(void)) {
+CallbackTask *CallbackTask_init(CallbackTask *self,
+                                void        (*callback)(void)) {
 
     self->base.vtable = &interface;
     self->callback    = callback;
-}
 
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-Task *CallbackTask_build(CallbackTask *self,
-                         void        (*callback)(void)) {
-
-    CallbackTask_init(self, callback);
-
-    Task *result = CallbackTask_asTask(self);
-
-    return result;
+    return self;
 }
 
 

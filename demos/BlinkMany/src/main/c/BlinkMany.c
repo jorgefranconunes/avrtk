@@ -49,9 +49,6 @@ static int _patternCount = sizeof(_patterns) / sizeof(uint8_t);
 static int _patternMask  = 0b11111100;
 static int _patternIndex = 0;
 
-static CallbackTask callbackTaskData;
-static Task        *task;
-
 
 
 
@@ -69,9 +66,12 @@ int main(void) {
     /* Set the appropriate pins of PORTD for output*/
     DDRD |= _patternMask;
 
-    TaskService *taskService = SysTaskService_get();
+    CallbackTask  callbackTaskData;
+    CallbackTask *callbackTask =
+        CallbackTask_init(&callbackTaskData, &blinkCallback);
+    Task         *task         = CallbackTask_asTask(callbackTask);
+    TaskService  *taskService  = SysTaskService_get();
     
-    task = CallbackTask_build(&callbackTaskData, &blinkCallback);
     TaskService_addPeriodicTask(taskService, task, 0L, DELAY_MS);
 
     /* Run forever. */

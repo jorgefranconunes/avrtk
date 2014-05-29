@@ -34,12 +34,6 @@ static EventListenerInterface taskServiceEventListenerInterface = {
 
 static void TaskService_tickEvent(TaskService *self);
 
-static void TaskService_myStart(TaskService *self);
-
-static TaskServiceInterface taskServiceInterface = {
-    .start = TaskService_myStart
-};
-
 
 
 
@@ -55,7 +49,6 @@ TaskService *TaskService_init(TaskService  *self,
                               EventManager *eventManager,
                               Clock        *clock) {
 
-    self->vtable = &taskServiceInterface;
     self->eventManager = eventManager;
     TaskScheduler_init(&self->scheduler, clock);
     TaskServiceTickListener_init(&self->tickListener, self);
@@ -75,22 +68,6 @@ TaskService *TaskService_init(TaskService  *self,
  **************************************************************************/
 
 void TaskService_start(TaskService  *self) {
-
-    self->vtable->start(self);
-}
-
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-static void TaskService_myStart(TaskService  *self) {
 
     EventListener *tickListener =
         TaskServiceTickListener_asEventListener(&self->tickListener);

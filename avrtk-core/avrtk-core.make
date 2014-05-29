@@ -15,7 +15,6 @@ AVRTK_CORE_C_SOURCES = \
 	avrtk/sys/SysTaskService.c \
 	avrtk/sys/SysTickSource.c \
 	avrtk/tasks/CallbackTask.c \
-	avrtk/tasks/CounterTaskService.c \
 	avrtk/tasks/Task.c \
 	avrtk/tasks/TaskScheduler.c \
 	avrtk/tasks/TaskService.c \

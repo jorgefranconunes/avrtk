@@ -24,11 +24,8 @@ extern "C" {
         void (*callback)(void);
     };
 
-    void CallbackTask_init(CallbackTask *self,
-                           void        (*callback)(void));
-
-    Task *CallbackTask_build(CallbackTask *self,
-                             void        (*callback)(void));
+    CallbackTask *CallbackTask_init(CallbackTask *self,
+                                    void        (*callback)(void));
 
     Task *CallbackTask_asTask(CallbackTask *self);
 

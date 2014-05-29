@@ -9,7 +9,7 @@
 
 #include <avrtk/sys/SysEventManager.h>
 #include <avrtk/sys/SysTickSource.h>
-#include <avrtk/tasks/CounterTaskService.h>
+#include <avrtk/tasks/TaskService.h>
 
 
 

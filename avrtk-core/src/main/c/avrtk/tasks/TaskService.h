@@ -30,14 +30,7 @@ extern "C" {
     };
 
 
-    typedef struct TaskServiceInterfaceStruct TaskServiceInterface;
-    struct TaskServiceInterfaceStruct {
-        void (*start)(TaskService *self);
-    };
-
-
     struct TaskServiceStruct {
-        TaskServiceInterface   *vtable;
         EventManager           *eventManager;
         TaskScheduler           scheduler;
         TaskServiceTickListener tickListener;

@@ -81,8 +81,10 @@ TEST(CallbackTask, asTask) {
 
 TEST(CallbackTask, build) {
 
-    CallbackTask taskData;
-    Task        *task = CallbackTask_build(&taskData, &testCallback);
+    CallbackTask  callbackTaskData;
+    CallbackTask *callbackTask =
+        CallbackTask_init(&callbackTaskData, &testCallback);
+    Task        *task         = CallbackTask_asTask(callbackTask);
 
     CHECK_EQUAL(0, _counter);
     Task_run(task);
@@ -95,8 +97,10 @@ TEST(CallbackTask, build) {
 
 TEST(CallbackTask, runTwice) {
 
-    CallbackTask taskData;
-    Task        *task = CallbackTask_build(&taskData, &testCallback);
+    CallbackTask  callbackTaskData;
+    CallbackTask *callbackTask =
+        CallbackTask_init(&callbackTaskData, &testCallback);
+    Task        *task         = CallbackTask_asTask(callbackTask);
 
     CHECK_EQUAL(0, _counter);
     Task_run(task);
