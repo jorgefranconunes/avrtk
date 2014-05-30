@@ -6,14 +6,14 @@
 
 #include <stddef.h>
 
-#include <avrtk/ticks/TickEventType.h>
+#include <avrtk/adc/AdcEventType.h>
 
 
 
 
 
-static EventType  _tickEventTypeData;
-static EventType *_tickEventType = NULL;
+static EventType  _adcEventTypeData;
+static EventType *_adcEventType = NULL;
 
 
 
@@ -25,13 +25,13 @@ static EventType *_tickEventType = NULL;
  *
  **************************************************************************/
 
-EventType *TickEventType_get() {
+EventType *AdcEventType_get() {
 
-    if ( NULL == _tickEventType ) {
-        _tickEventType = EventType_init(&_tickEventTypeData);
+    if ( NULL == _adcEventType ) {
+        _adcEventType = EventType_init(&_adcEventTypeData);
     }
 
-    return _tickEventType;
+    return _adcEventType;
 }
 
 

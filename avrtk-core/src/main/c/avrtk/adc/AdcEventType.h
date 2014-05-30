@@ -4,25 +4,20 @@
  *
  **************************************************************************/
 
-#ifndef EVENTTYPE_H
-#define EVENTTYPE_H
+#ifndef ADCEVENTTYPE_H
+#define ADCEVENTTYPE_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#include <avrtk/events/EventType.h>
 
 
 
 
-    typedef struct EventTypeStruct EventType;
-    struct EventTypeStruct {
-        int id;
-    };
 
-    EventType *EventType_init(EventType *self);
-
-    int  EventType_getId(EventType *self);
+    EventType *AdcEventType_get();
 
 
 

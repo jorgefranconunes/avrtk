@@ -6,6 +6,9 @@
 ###########################################################################
 
 AVRTK_CORE_C_SOURCES = \
+	avrtk/adc/AdcEvent.c \
+	avrtk/adc/AdcEventType.c \
+	avrtk/adc/AdcSample.c \
 	avrtk/events/Event.c \
 	avrtk/events/EventListener.c \
 	avrtk/events/EventManager.c \
