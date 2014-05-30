@@ -27,6 +27,8 @@ extern "C" {
     CallbackTask *CallbackTask_init(CallbackTask *self,
                                     void        (*callback)(void));
 
+    void CallbackTask_run(Task *baseSelf);
+
     Task *CallbackTask_asTask(CallbackTask *self);
 
 

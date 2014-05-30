@@ -10,8 +10,6 @@
 
 
 
-static void TestTask_run(Task *baseSelf);
-
 static TaskInterface interface = {
     .run = &TestTask_run
 };
@@ -44,11 +42,11 @@ TestTask *TestTask_init(TestTask *self) {
  *
  **************************************************************************/
 
-Task *TestTask_asTask(TestTask *self) {
+void TestTask_run(Task *baseSelf) {
 
-    Task *result = (Task *)self;
+    TestTask *self = (TestTask *)baseSelf;
 
-    return result;
+    ++self->callCount;
 }
 
 
@@ -78,11 +76,11 @@ int TestTask_getCallCount(TestTask *self) {
  *
  **************************************************************************/
 
-static void TestTask_run(Task *baseSelf) {
+Task *TestTask_asTask(TestTask *self) {
 
-    TestTask *self = (TestTask *)baseSelf;
+    Task *result = (Task *)self;
 
-    ++self->callCount;
+    return result;
 }
 
 

@@ -10,8 +10,6 @@
 
 
 
-static long CounterClock_currentTimeMillis(Clock *self);
-
 static ClockInterface interface = {
     .currentTimeMillis = CounterClock_currentTimeMillis
 };
@@ -49,6 +47,24 @@ CounterClock *CounterClock_init(CounterClock *self,
     self->time        = 0L;
 
     return self;
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+long CounterClock_currentTimeMillis(Clock *self) {
+
+    CounterClock *me     = (CounterClock *)self;
+    long          result = me->time;
+
+    return result;
 }
 
 
@@ -102,24 +118,6 @@ Clock *CounterClock_asClock(CounterClock *self) {
     Clock *result = (Clock *)self;
 
     return result;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-static long CounterClock_currentTimeMillis(Clock *self) {
-
-    CounterClock *me     = (CounterClock *)self;
-    long          result = me->time;
-    return result;
-
 }
 
 

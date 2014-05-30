@@ -33,9 +33,12 @@ extern "C" {
                                               int                maxEventCount,
                                               EventManager      *eventManager);
 
-    EventListener *TestEventListener_asEventListener(TestEventListener *self);
+    void TestEventListener_notify(EventListener *self,
+                                  Event         *event);
 
-    int            TestEventListener_getEventCount(TestEventListener *self);
+    int TestEventListener_getEventCount(TestEventListener *self);
+
+    EventListener *TestEventListener_asEventListener(TestEventListener *self);
 
 
 

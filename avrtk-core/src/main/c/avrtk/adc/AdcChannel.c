@@ -4,15 +4,9 @@
  *
  **************************************************************************/
 
-#include <avrtk/tasks/TestClock.h>
+#include <stddef.h>
 
-
-
-
-
-static ClockInterface interface = {
-    .currentTimeMillis = &TestClock_getCurrentTimeMillis
-};
+#include <avrtk/adc/AdcChannel.h>
 
 
 
@@ -24,10 +18,12 @@ static ClockInterface interface = {
  *
  **************************************************************************/
 
-TestClock *TestClock_init(TestClock *self) {
+AdcChannel *AdcChannel_init(AdcChannel *self,
+                            int         channelId) {
 
-    self->base.vtable = &interface;
-    self->time        = 0;
+    AdcSourceChannel_init(&self->sourceChannel, channelId);
+    self->listenerListHead = NULL;
+    self->next             = NULL;
 
     return self;
 }
@@ -42,59 +38,9 @@ TestClock *TestClock_init(TestClock *self) {
  *
  **************************************************************************/
 
-long TestClock_getCurrentTimeMillis(Clock *baseSelf) {
+int AdcChannel_getChannelId(AdcChannel *self) {
 
-    TestClock *self   = (TestClock *)baseSelf;
-    long       result = TestClock_time(self);
-
-    return result;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-void TestClock_setTime(TestClock *self,
-                       long       time) {
-
-    self->time = time;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-void TestClock_addTime(TestClock *self,
-                       long       interval) {
-
-    self->time += interval;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-long TestClock_time(TestClock *self) {
-
-    long result = self->time;
+    int result = AdcSourceChannel_getChannelId(&self->sourceChannel);
 
     return result;
 }
@@ -109,9 +55,47 @@ long TestClock_time(TestClock *self) {
  *
  **************************************************************************/
 
-Clock *TestClock_asClock(TestClock *self) {
+void AdcChannel_addListener(AdcChannel  *self,
+                            AdcListener *listener) {
 
-    Clock *result = (Clock *)self;
+    listener->next = self->listenerListHead;
+
+    self->listenerListHead = listener;
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+void AdcChannel_notify(AdcChannel *self,
+                       AdcSample  *sample) {
+
+    for ( AdcListener *listener = self->listenerListHead;
+          listener != NULL;
+          listener = listener->next ) {
+        AdcListener_notify(listener, sample);
+    }
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+AdcSourceChannel *AdcChannel_getSourceChannel(AdcChannel *self) {
+
+    AdcSourceChannel *result = &self->sourceChannel;
 
     return result;
 }

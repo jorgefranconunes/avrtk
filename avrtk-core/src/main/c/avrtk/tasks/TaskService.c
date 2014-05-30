@@ -38,7 +38,6 @@ static void TaskService_tickEvent(TaskService *self);
 
 
 
-
 /**************************************************************************
  *
  * 
@@ -198,12 +197,12 @@ TaskServiceTickListener_asEventListener(TaskServiceTickListener *self) {
  *
  **************************************************************************/
 
-static void TaskServiceTickListener_notify(EventListener *self,
-                                            Event         *Event) {
+static void TaskServiceTickListener_notify(EventListener *baseSelf,
+                                           Event         *Event) {
 
-    TaskServiceTickListener *me = (TaskServiceTickListener *)self;
+    TaskServiceTickListener *self = (TaskServiceTickListener *)baseSelf;
 
-    TaskService_tickEvent(me->taskService);
+    TaskService_tickEvent(self->taskService);
 }
 
 

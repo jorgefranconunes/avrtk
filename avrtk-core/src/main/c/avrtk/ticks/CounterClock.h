@@ -31,6 +31,8 @@ extern "C" {
                                     int           incrementFactorN,
                                     int           incrementFactorD);
 
+    long CounterClock_currentTimeMillis(Clock *baseSelf);
+
     void CounterClock_update(CounterClock *self,
                              long          currentTickCount);
 

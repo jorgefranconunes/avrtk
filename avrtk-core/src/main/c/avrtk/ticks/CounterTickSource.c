@@ -13,8 +13,6 @@
 
 
 
-static Event *CounterTickSource_poll(EventSource *baseSelf);
-
 static EventSourceInterface interface = {
     .poll = CounterTickSource_poll
 };
@@ -55,6 +53,32 @@ CounterTickSource_init(CounterTickSource *self,
  *
  **************************************************************************/
 
+Event *CounterTickSource_poll(EventSource *baseSelf) {
+
+    CounterTickSource *self = (CounterTickSource *)baseSelf;
+
+    Event *result           = NULL;
+    long   currentTickCount = self->tickCountGetter();
+
+    if ( currentTickCount != self->lastTickCount ) {
+        self->lastTickCount = currentTickCount;
+        CounterClock_update(&self->clock, currentTickCount);
+        result = &self->tickEvent;
+    }
+
+    return result;
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
 Clock *CounterTickSource_getClock(CounterTickSource *self) {
 
     Clock *result = CounterClock_asClock(&self->clock);
@@ -75,32 +99,6 @@ Clock *CounterTickSource_getClock(CounterTickSource *self) {
 EventSource *CounterTickSource_asEventSource(CounterTickSource *self) {
 
     EventSource *result = (EventSource *)self;
-
-    return result;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-static Event *CounterTickSource_poll(EventSource *baseSelf) {
-
-    CounterTickSource *self = (CounterTickSource *)baseSelf;
-
-    Event *result           = NULL;
-    long   currentTickCount = self->tickCountGetter();
-
-    if ( currentTickCount != self->lastTickCount ) {
-        self->lastTickCount = currentTickCount;
-        CounterClock_update(&self->clock, currentTickCount);
-        result = &self->tickEvent;
-    }
 
     return result;
 }

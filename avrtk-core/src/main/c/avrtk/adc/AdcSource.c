@@ -4,15 +4,7 @@
  *
  **************************************************************************/
 
-#include <avrtk/tasks/CallbackTask.h>
-
-
-
-
-
-static TaskInterface interface = {
-    .run = &CallbackTask_run
-};
+#include <avrtk/adc/AdcSource.h>
 
 
 
@@ -24,13 +16,10 @@ static TaskInterface interface = {
  *
  **************************************************************************/
 
-CallbackTask *CallbackTask_init(CallbackTask *self,
-                                void        (*callback)(void)) {
+void AdcSource_addSourceChannel(AdcSource        *self,
+                                AdcSourceChannel *channel) {
 
-    self->base.vtable = &interface;
-    self->callback    = callback;
-
-    return self;
+    self->vtable->addSourceChannel(self, channel);
 }
 
 
@@ -43,28 +32,11 @@ CallbackTask *CallbackTask_init(CallbackTask *self,
  *
  **************************************************************************/
 
-Task *CallbackTask_asTask(CallbackTask *self) {
+EventSource *AdcSource_asEventSource(AdcSource *self) {
 
-    Task *result = (Task *)self;
+    EventSource *result = (EventSource *)self;
 
     return result;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-void CallbackTask_run(Task *baseSelf) {
-
-    CallbackTask *self = (CallbackTask *)baseSelf;
-
-    self->callback();
 }
 
 

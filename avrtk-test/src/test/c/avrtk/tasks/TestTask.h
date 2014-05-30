@@ -24,11 +24,13 @@ extern "C" {
         int  callCount;
     };
 
+    void TestTask_run(Task *baseSelf);
+
     TestTask *TestTask_init(TestTask *self);
 
-    Task *TestTask_asTask(TestTask *self);
-
     int TestTask_getCallCount(TestTask *self);
+
+    Task *TestTask_asTask(TestTask *self);
 
 
 

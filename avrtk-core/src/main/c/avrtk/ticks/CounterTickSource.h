@@ -35,6 +35,9 @@ extern "C" {
                            int                incrementFactorN,
                            int                incrementeFactorD);
 
+    Event *
+    CounterTickSource_poll(EventSource *baseSelf);
+
     Clock *
     CounterTickSource_getClock(CounterTickSource *self);
 

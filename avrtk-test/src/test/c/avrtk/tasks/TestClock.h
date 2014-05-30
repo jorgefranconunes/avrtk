@@ -24,6 +24,8 @@ extern "C" {
         long  time;
     };
 
+    long TestClock_getCurrentTimeMillis(Clock *baseSelf);
+
     TestClock *TestClock_init(TestClock *self);
 
     void TestClock_setTime(TestClock *self, long time);

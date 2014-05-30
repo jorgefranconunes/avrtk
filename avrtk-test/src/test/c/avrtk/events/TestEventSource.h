@@ -37,6 +37,8 @@ extern "C" {
                                           int             *tickCountList,
                                           int              tickCountSize);
 
+    Event *TestEventSource_poll(EventSource *self);
+
     int TestEventSource_getQueryCount(TestEventSource *self);
 
     EventSource *TestEventSource_asEventSource(TestEventSource *self);

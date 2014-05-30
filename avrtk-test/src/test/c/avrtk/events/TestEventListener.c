@@ -14,9 +14,6 @@
 
 
 
-static void TestEventListener_notify(EventListener *self,
-                                     Event         *event);
-
 static EventListenerInterface interface = {
     .notify  = TestEventListener_notify
 };
@@ -55,11 +52,23 @@ TestEventListener *TestEventListener_init(TestEventListener *self,
  *
  **************************************************************************/
 
-EventListener *TestEventListener_asEventListener(TestEventListener *self) {
+void TestEventListener_notify(EventListener *baseSelf,
+                              Event         *event) {
 
-    EventListener *result = (EventListener *)self;
+    TestEventListener *self              = (TestEventListener *)baseSelf;
+    EventType         *expectedEventType = self->eventType;
 
-    return result;
+    if ( NULL != expectedEventType ) {
+        assert( expectedEventType == Event_getEventType(event) );
+    }
+
+    if ( self->eventCount < self->maxEventCount ) {
+        ++(self->eventCount);
+
+        if ( self->eventCount == self->maxEventCount ) {
+            EventManager_stop(self->eventManager);
+        }
+    }
 }
 
 
@@ -89,23 +98,11 @@ int TestEventListener_getEventCount(TestEventListener *self) {
  *
  **************************************************************************/
 
-static void TestEventListener_notify(EventListener *baseSelf,
-                                     Event         *event) {
+EventListener *TestEventListener_asEventListener(TestEventListener *self) {
 
-    TestEventListener *self              = (TestEventListener *)baseSelf;
-    EventType         *expectedEventType = self->eventType;
+    EventListener *result = (EventListener *)self;
 
-    if ( NULL != expectedEventType ) {
-        assert( expectedEventType == Event_getEventType(event) );
-    }
-
-    if ( self->eventCount < self->maxEventCount ) {
-        ++(self->eventCount);
-
-        if ( self->eventCount == self->maxEventCount ) {
-            EventManager_stop(self->eventManager);
-        }
-    }
+    return result;
 }
 
 
