@@ -44,6 +44,7 @@ B_TEST_LD_FLAGS = \
 	-lCppUTest
 
 B_TEST_C_SOURCES = \
+	avrtk/adc/TestAdcListener.c \
 	avrtk/events/TestEventListener.c \
 	avrtk/events/TestEventSource.c \
 	avrtk/ticks/TestClock.c \
@@ -51,6 +52,7 @@ B_TEST_C_SOURCES = \
 
 B_TEST_CXX_SOURCES = \
 	AllTests.cpp \
+	avrtk/adc/AdcChannelTest.cpp \
 	avrtk/adc/BasicAdcSourceTest.cpp \
 	avrtk/events/EventManagerTest.cpp \
 	avrtk/sys/SysTaskServiceTest.cpp \

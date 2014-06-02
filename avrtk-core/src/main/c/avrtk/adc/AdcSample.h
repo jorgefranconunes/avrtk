@@ -27,6 +27,9 @@ extern "C" {
                               int        channelId,
                               uint16_t   value);
 
+    AdcSample *AdcSample_initFromSample(AdcSample *self,
+                                        AdcSample *sample);
+
     int  AdcSample_getChannelId(AdcSample *self);
 
     uint16_t AdcSample_getValue(AdcSample *self);

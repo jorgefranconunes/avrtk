@@ -4,7 +4,15 @@
  *
  **************************************************************************/
 
-#include <avrtk/adc/AdcSample.h>
+#include <avrtk/adc/TestAdcListener.h>
+
+
+
+
+
+static AdcListenerInterface interface = {
+    .notify= &TestAdcListener_notify
+};
 
 
 
@@ -16,12 +24,10 @@
  *
  **************************************************************************/
 
-AdcSample *AdcSample_init(AdcSample *self,
-                          int        channelId,
-                          uint16_t   value) {
+TestAdcListener *TestAdcListener_init(TestAdcListener *self) {
 
-    self->channelId = channelId;
-    self->value     = value;
+    self->base.vtable = &interface;
+    self->notifyCount = 0;
 
     return self;
 }
@@ -36,13 +42,13 @@ AdcSample *AdcSample_init(AdcSample *self,
  *
  **************************************************************************/
 
-AdcSample *AdcSample_initFromSample(AdcSample *self,
-                                    AdcSample *sample) {
+void TestAdcListener_notify(AdcListener *baseSelf,
+                            AdcSample   *sample) {
 
-    self->channelId = sample->channelId;
-    self->value     = sample->value;
+    TestAdcListener *self = (TestAdcListener *)baseSelf;
 
-    return self;
+    AdcSample_initFromSample(&self->sample, sample);
+    ++self->notifyCount;
 }
 
 
@@ -55,9 +61,11 @@ AdcSample *AdcSample_initFromSample(AdcSample *self,
  *
  **************************************************************************/
 
-int AdcSample_getChannelId(AdcSample *self) {
+AdcSample *TestAdcListener_getSample(TestAdcListener *self) {
 
-    return self->channelId;
+    AdcSample *result = &self->sample;
+
+    return result;
 }
 
 
@@ -70,9 +78,28 @@ int AdcSample_getChannelId(AdcSample *self) {
  *
  **************************************************************************/
 
-uint16_t AdcSample_getValue(AdcSample *self) {
+int TestAdcListener_getNotifyCount(TestAdcListener *self) {
 
-    return self->value;
+    long result = self->notifyCount;
+
+    return result;
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+AdcListener *TestAdcListener_asAdcListener(TestAdcListener *self) {
+
+    AdcListener *result = (AdcListener *)self;
+
+    return result;
 }
 
 
