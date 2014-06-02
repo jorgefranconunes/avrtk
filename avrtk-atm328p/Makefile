@@ -29,6 +29,7 @@ B_MAIN_CC_FLAGS = \
 	-I $(B_PROJ_ROOT)/avrtk-core/src/main/c
 
 B_MAIN_C_SOURCES = \
+	avrtk/sys/atm328p/Atm328pAdcService.c \
 	avrtk/sys/atm328p/Atm328pTaskService.c \
 	avrtk/sys/atm328p/Atm328pTickSource.c
 

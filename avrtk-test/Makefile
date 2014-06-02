@@ -46,7 +46,7 @@ B_TEST_LD_FLAGS = \
 B_TEST_C_SOURCES = \
 	avrtk/events/TestEventListener.c \
 	avrtk/events/TestEventSource.c \
-	avrtk/tasks/TestClock.c \
+	avrtk/ticks/TestClock.c \
 	avrtk/tasks/TestTask.c
 
 B_TEST_CXX_SOURCES = \

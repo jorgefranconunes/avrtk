@@ -11,7 +11,7 @@
 #include <avrtk/ticks/TickEventType.h>
 
 #include <avrtk/events/TestEventSource.h>
-#include <avrtk/tasks/TestClock.h>
+#include <avrtk/ticks/TestClock.h>
 #include <avrtk/tasks/TestTask.h>
 
 

@@ -125,3 +125,8 @@ TBD...
 Datasheets for the Atmel ATmega48A/PA/88A/PA/168A/PA/328/P
 microcontrollers: http://www.atmel.com/devices/atmega328p.aspx
 
+Mapping between Arduino pins and ATMega328p pins:
+http://arduino.cc/en/Hacking/PinMapping168
+
+AVR Libc: http://www.nongnu.org/avr-libc/user-manual/index.html
+

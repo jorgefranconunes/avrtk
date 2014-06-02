@@ -4,7 +4,7 @@
  *
  **************************************************************************/
 
-#include <avrtk/tasks/TestClock.h>
+#include <avrtk/ticks/TestClock.h>
 
 
 
