@@ -46,6 +46,8 @@ extern "C" {
 
     AdcSource *BasicAdcSource_asAdcSource(BasicAdcSource *self);
 
+    EventSource *BasicAdcSource_asEventSource(BasicAdcSource *self);
+
 
 
 

@@ -13,9 +13,6 @@
 
 
 
-
-
-
 static long _myTickCounter = 0L;
 
 

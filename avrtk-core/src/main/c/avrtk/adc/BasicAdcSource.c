@@ -142,6 +142,24 @@ AdcSource *BasicAdcSource_asAdcSource(BasicAdcSource *self) {
  *
  **************************************************************************/
 
+EventSource *BasicAdcSource_asEventSource(BasicAdcSource *self) {
+
+    AdcSource   *adcSource = (AdcSource *)self;
+    EventSource *result    = AdcSource_asEventSource(adcSource);
+
+    return result;
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
 static void BasicAdcSource_startAdcForChannel(BasicAdcSource   *self,
                                               AdcSourceChannel *channel) {
 

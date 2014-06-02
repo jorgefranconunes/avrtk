@@ -51,6 +51,7 @@ B_TEST_C_SOURCES = \
 
 B_TEST_CXX_SOURCES = \
 	AllTests.cpp \
+	avrtk/adc/BasicAdcSourceTest.cpp \
 	avrtk/events/EventManagerTest.cpp \
 	avrtk/sys/SysTaskServiceTest.cpp \
 	avrtk/sys/SysTickSourceTest.cpp \
