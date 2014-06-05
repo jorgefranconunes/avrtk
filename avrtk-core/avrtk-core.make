@@ -16,7 +16,8 @@ AVRTK_CORE_C_SOURCES += \
 	avrtk/adc/AdcService.c \
 	avrtk/adc/AdcSource.c \
 	avrtk/adc/AdcSourceChannel.c \
-	avrtk/adc/BasicAdcSource.c
+	avrtk/adc/BasicAdcSource.c \
+	avrtk/adc/CallbackAdcListener.c
 
 AVRTK_CORE_C_SOURCES += \
 	avrtk/events/Event.c \
