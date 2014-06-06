@@ -37,10 +37,10 @@ B_MAIN_C_SOURCES = \
 
 B_TEST_CXX_FLAGS = \
 	-g \
-	-I $(CPPUTEST)/include
+	-I $(AVRTK_CPPUTEST)/include
 
 B_TEST_LD_FLAGS = \
-	-L $(CPPUTEST)/lib \
+	-L $(AVRTK_CPPUTEST)/lib \
 	-lCppUTest
 
 B_TEST_C_SOURCES = \
@@ -54,6 +54,7 @@ B_TEST_CXX_SOURCES = \
 	AllTests.cpp \
 	avrtk/adc/AdcChannelTest.cpp \
 	avrtk/adc/BasicAdcSourceTest.cpp \
+	avrtk/adc/CallbackAdcListenerTest.cpp \
 	avrtk/events/EventManagerTest.cpp \
 	avrtk/sys/SysTaskServiceTest.cpp \
 	avrtk/sys/SysTickSourceTest.cpp \
