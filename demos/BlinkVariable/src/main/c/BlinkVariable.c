@@ -23,18 +23,27 @@
 
 
 
-static const long MIN_DELAY      = 250L;
-static const long MAX_DELAY      = 2000L;
-static const int  ADC_CHANNEL_ID = 0;
 
+
+static const int  ADC_CHANNEL_ID = 0;
+static const long MIN_DELAY      = 100L;
+static const long MAX_DELAY      = 500L;
+
+
+static void setupBlinkTask(void);
+static void setupAdcListener(void);
 static void blinkCallback(void);
 static void adcCallback(AdcSample *sample);
+
+
+static CallbackTask        _callbackTaskData;
+static AdcChannel          _adcChannelData;
+static CallbackAdcListener _callbackAdcListenerData;
 
 static TaskService *_taskService = NULL;
 static Task        *_blinkTask   = NULL;
 static long         _blinkDelay  = 500L;
 static bool         _isLedOn     = true;
-
 
 
 
@@ -46,7 +55,7 @@ static bool         _isLedOn     = true;
  *
  **************************************************************************/
 
-int main(void) {
+int main() {
 
     Atm328pTaskService_init();
     Atm328pAdcService_init();
@@ -54,33 +63,58 @@ int main(void) {
     /* Set pin 5 of PORTD for output*/
     DDRD |= _BV(DDD5);
 
-
-    CallbackTask  callbackTaskData;
-    CallbackTask *callbackTask =
-        CallbackTask_init(&callbackTaskData, &blinkCallback);
-    Task         *task         = CallbackTask_asTask(callbackTask);
-    TaskService  *taskService  = SysTaskService_get();
-    
-    TaskService_addTask(taskService, task, 0L);
-
-
-    AdcService          *adcService = SysAdcService_get();
-    AdcChannel           adcChannelData;
-    AdcChannel          *adcChannel =
-        AdcService_initChannel(adcService, &adcChannelData, ADC_CHANNEL_ID);
-    CallbackAdcListener  callbackAdcListenerData;
-    CallbackAdcListener *callbackAdcListener =
-        CallbackAdcListener_init(&callbackAdcListenerData, &adcCallback);
-    AdcListener         *adcListener =
-        CallbackAdcListener_asAdcListener(callbackAdcListener);
-
-    AdcChannel_addListener(adcChannel, adcListener);
-
-    _taskService = taskService;
-    _blinkTask   = task;
+    setupBlinkTask();
+    setupAdcListener();
 
     /* Run forever. */
     SysEventManager_start();
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+static void setupBlinkTask() {
+
+    CallbackTask *callbackTask =
+        CallbackTask_init(&_callbackTaskData, &blinkCallback);
+    Task         *blinkTask    = CallbackTask_asTask(callbackTask);
+    TaskService  *taskService  = SysTaskService_get();
+    
+    TaskService_addTask(taskService, blinkTask, 0L);
+
+    _taskService = taskService;
+    _blinkTask   = blinkTask;
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+static void setupAdcListener() {
+
+    AdcService *adcService = SysAdcService_get();
+    AdcChannel *adcChannel =
+        AdcService_initChannel(adcService, &_adcChannelData, ADC_CHANNEL_ID);
+
+    CallbackAdcListener *callbackAdcListener =
+        CallbackAdcListener_init(&_callbackAdcListenerData, &adcCallback);
+    AdcListener         *adcListener         =
+        CallbackAdcListener_asAdcListener(callbackAdcListener);
+
+    AdcChannel_addListener(adcChannel, adcListener);
 }
 
 

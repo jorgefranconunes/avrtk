@@ -9,6 +9,7 @@ MODULES = \
 	avrtk-atm328p \
 	demos/Blink \
 	demos/BlinkVariable \
+	demos/BlinkVariable101 \
 	demos/Blink101 \
 	demos/BlinkMany \
 	demos/HelloWorld

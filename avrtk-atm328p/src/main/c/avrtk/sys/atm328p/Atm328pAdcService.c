@@ -62,6 +62,7 @@ static bool startAdc(int channelId) {
     bool isOk = true;
 
     if ( (channelId>=0) && (channelId<=8) ) {
+        _isAdcCompleted = false;
         startAtm328AdcConversion(channelId);
     } else {
         isOk = false;
@@ -91,16 +92,19 @@ static void startAtm328AdcConversion(int channel) {
     PRR &= ~_BV(PRADC);
 
     // Use AVCC as Voltage Reference Selection. REFS1:REFS0 = 0x00
-    ADMUX &= ~(_BV(REFS1) | _BV(REFS0));
+    ADMUX = (ADMUX & 0x3f) | 0x40;
 
     // ADC Left Adjust Result is off.
     ADMUX &= ~_BV(ADLAR);
 
     // Analog Chnnel Selection Bits set to channel number.
-    ADMUX = (ADMUX & 0xf) | (channel & 0x0f);
+    ADMUX = (ADMUX & 0xf0) | (channel & 0x0f);
 
     // ADC Enable is on.
     ADCSRA |= _BV(ADEN);
+
+    // Set the prescaler to 128.
+    ADCSRA = (ADCSRA & 0xf8) | 0x07;
 
     // ADC Auto Trigger Enable is off to start a single conversion.
     ADCSRA &= ~_BV(ADATE);
@@ -189,10 +193,11 @@ static uint16_t getLatestAdcValue() {
 
 ISR (ADC_vect) {
 
-    uint16_t lowByte = ADCL;
-    uint16_t hiByte  = ADCH;
+    uint16_t lowByte  = ADCL;
+    uint16_t hiByte   = ADCH;
+    uint16_t atmValue =(hiByte<<8) | lowByte;
 
-    _adcValue       = (hiByte<<8) | lowByte;
+    _adcValue       = atmValue << 6;
     _isAdcCompleted = true;
 }
 

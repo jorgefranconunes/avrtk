@@ -17,7 +17,7 @@
 
 
 
-static bool            _needsInit = true;
+static bool            _isInited = true;
 static BasicAdcSource _adcSourceData;
 static AdcService      _adcServiceData;
 static AdcService     *_adcService = NULL;
@@ -43,8 +43,13 @@ void SysAdcService_init(bool     (*startAdc)(int),
                             getLatestAdcValue);
     AdcSource      *adcSource    = BasicAdcSource_asAdcSource(basicAdcSource);
     EventManager   *eventManager = SysEventManager_get();
+    AdcService     *adcService   =
+        AdcService_init(&_adcServiceData, eventManager, adcSource);
 
-    _adcService = AdcService_init(&_adcServiceData, eventManager, adcSource);
+    AdcService_start(adcService);
+
+    _adcService = adcService;
+    _isInited   = true;
 }
 
 
@@ -59,7 +64,7 @@ void SysAdcService_init(bool     (*startAdc)(int),
 
 AdcService *SysAdcService_get() {
 
-    assert( _needsInit == false );
+    assert( _isInited == false );
 
     return _adcService;
 }
@@ -85,7 +90,7 @@ AdcService *SysAdcService_get() {
 void SysAdcService_reset() {
 
     _adcService = NULL;
-    _needsInit  = true;
+    _isInited   = true;
 }
 
 
