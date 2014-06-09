@@ -46,6 +46,7 @@ void SysAdcService_init(bool     (*startAdc)(int),
     AdcService     *adcService   =
         AdcService_init(&_adcServiceData, eventManager, adcSource);
 
+    EventManager_addSource(eventManager, AdcSource_asEventSource(adcSource));
     AdcService_start(adcService);
 
     _adcService = adcService;
