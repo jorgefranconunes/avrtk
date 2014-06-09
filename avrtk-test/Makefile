@@ -53,6 +53,7 @@ B_TEST_C_SOURCES = \
 B_TEST_CXX_SOURCES = \
 	AllTests.cpp \
 	avrtk/adc/AdcChannelTest.cpp \
+	avrtk/adc/AdcEventTest.cpp \
 	avrtk/adc/BasicAdcSourceTest.cpp \
 	avrtk/adc/CallbackAdcListenerTest.cpp \
 	avrtk/events/EventManagerTest.cpp \

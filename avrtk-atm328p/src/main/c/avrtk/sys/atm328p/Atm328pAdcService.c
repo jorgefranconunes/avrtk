@@ -14,6 +14,7 @@
 
 
 
+static void     setupAdm328Adc(void);
 static bool     startAdc(int);
 static bool     isAdcCompleted(void);
 static uint16_t getLatestAdcValue(void);
@@ -41,10 +42,50 @@ static volatile uint16_t _adcValue       = 0;
 void Atm328pAdcService_init() {
 
     if ( !_isInited ) {
+        setupAdm328Adc();
         SysAdcService_init(&startAdc, &isAdcCompleted, &getLatestAdcValue);
 
         _isInited = true;
     }
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+static void setupAdm328Adc() {
+
+    cli();
+
+    // Disable Power reduction ADC
+    PRR &= ~_BV(PRADC);
+
+    // Use AVCC as Voltage Reference Selection. REFS1:REFS0 = 0x01
+    ADMUX = (ADMUX & 0x3f) | 0x40;
+
+    // ADC Left Adjust Result is off.
+    ADMUX &= ~_BV(ADLAR);
+
+    // ADC Enable is on.
+    ADCSRA |= _BV(ADEN);
+
+    // Set the prescaler to 128.
+    ADCSRA = (ADCSRA & 0xf8) | 0x07;
+
+    // ADC Auto Trigger Enable is off to start a single conversion.
+    ADCSRA &= ~_BV(ADATE);
+
+    // ADC Interrupt Enable is on, wo we will get an interrupt when
+    // the conversion completes.
+    ADCSRA |= _BV(ADIE);
+
+    sei();
 }
 
 
@@ -83,35 +124,15 @@ static bool startAdc(int channelId) {
 
 static void startAtm328AdcConversion(int channel) {
 
+    _isAdcCompleted = false;
+
     // Set the corresponding pin in port C as input.
     if ( channel < 8 ) {
         DDRC &= ~_BV(channel);
     }
 
-    // Disable Power reduction ADC
-    PRR &= ~_BV(PRADC);
-
-    // Use AVCC as Voltage Reference Selection. REFS1:REFS0 = 0x00
-    ADMUX = (ADMUX & 0x3f) | 0x40;
-
-    // ADC Left Adjust Result is off.
-    ADMUX &= ~_BV(ADLAR);
-
     // Analog Chnnel Selection Bits set to channel number.
     ADMUX = (ADMUX & 0xf0) | (channel & 0x0f);
-
-    // ADC Enable is on.
-    ADCSRA |= _BV(ADEN);
-
-    // Set the prescaler to 128.
-    ADCSRA = (ADCSRA & 0xf8) | 0x07;
-
-    // ADC Auto Trigger Enable is off to start a single conversion.
-    ADCSRA &= ~_BV(ADATE);
-
-    // ADC Interrupt Enable is on, wo we will get an interrupt when
-    // the conversion completes.
-    ADCSRA |= _BV(ADIE);
 
     // And start the conversion by setting the ADC Start Conversion bit.
     ADCSRA |= _BV(ADSC);

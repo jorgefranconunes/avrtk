@@ -7,6 +7,7 @@
 MODULES = \
 	avrtk-test \
 	avrtk-atm328p \
+	demos/AdcGauge101 \
 	demos/Blink \
 	demos/BlinkVariable \
 	demos/BlinkVariable101 \
