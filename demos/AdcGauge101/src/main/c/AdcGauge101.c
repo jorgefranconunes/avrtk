@@ -22,12 +22,13 @@ static void startAtm328AdcConversion(int channel);
 static bool isAdcCompleted(void);
 static uint16_t getLatestAdcValue();
 
-static bool     volatile _isAdcCompleted = false;
-static uint16_t volatile _adcValue = 0;
-
 static int _patternMask  = 0b11111100;
 static int  _adcChannel = 0;
 static bool _isAdcFirstTime = true;
+
+// The following are used inside interrupt routines.
+static bool     volatile _isAdcCompleted = false;
+static uint16_t volatile _adcValue = 0;
 
 
 
