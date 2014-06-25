@@ -4,6 +4,22 @@
  *
  **************************************************************************/
 
+/**
+ *
+ * @file avrtk/tasks/TaskService.h
+ *
+ * @brief Definition of the TaskService class methods.
+ *
+ */
+
+/**
+ *
+ * @class TaskService avrtk/tasks/TaskService.h <avrtk/tasks/TaskService.h>
+ *
+ * @brief Used for executing tasks at a given time or periodically.
+ *
+ */
+
 #include <stddef.h>
 
 #include <avrtk/tasks/TaskService.h>
@@ -38,9 +54,22 @@ static void TaskService_tickEvent(TaskService *self);
 
 
 
-/**************************************************************************
+/**********************************************************************//**
  *
- * 
+ * Initializes a TaskService object.
+ *
+ * @public @memberof TaskService
+ *
+ * @param self Reference to the TaskService object to be initialized.
+ *
+ * @param eventManager Reference to the EventManager instance to be
+ * used internally.
+ *
+ * @param clock Reference to the Clock instance used to obtain the
+ * system time.
+ *
+ * @return A reference to the object just initialized. This will be
+ * the same as the self argument.
  *
  **************************************************************************/
 
@@ -60,9 +89,16 @@ TaskService *TaskService_init(TaskService  *self,
 
 
 
-/**************************************************************************
+/**********************************************************************//**
  *
- * 
+ * Starts the TaskService.
+ *
+ * @public @memberof TaskService
+ *
+ * Upon returning from this method, the TaskService will start
+ * listening for tick events distributed by the EventManager.
+ *
+ * @param self Reference to the TaskService object being used.
  *
  **************************************************************************/
 
@@ -80,9 +116,23 @@ void TaskService_start(TaskService  *self) {
 
 
 
-/**************************************************************************
+/**********************************************************************//**
  *
- * 
+ * Adds a task to be executed after the given delay.
+ *
+ * @public @memberof TaskService
+ *
+ * The task object is allowed during the execution of its Task_run
+ * method to invoke methods on this same TaskService to add or cancel
+ * other tasks. The task object can even add itself to this
+ * TaskService.
+ *
+ * @param self Reference to the TaskService object being used.
+ *
+ * @param task Reference to the Task instance to be executed.
+ *
+ * @param delay Delay, in milliseconds, after which the task is to be
+ * executed.
  *
  **************************************************************************/
 
@@ -98,9 +148,12 @@ void TaskService_addTask(TaskService *self,
 
 
 
-/**************************************************************************
+/***********************************************************************//**
  *
- * The Task will be in use until the given task is cancelled.
+ * Adds a task to be executed periodically after a given delay. The
+ * Task will be in use until the given task is cancelled.
+ *
+ * @public @memberof TaskService
  *
  * This method can be called from within a task being run by
  * TaskService_runPendingTasks.
@@ -120,10 +173,12 @@ void TaskService_addPeriodicTask(TaskService *self,
 
 
 
-/**************************************************************************
+/**********************************************************************//**
  *
  * The Task is guaranteed to be no longer in use by the TaskService by
  * the time this method returns.
+ *
+ * @public @memberof TaskService
  *
  * This method can be called from within a task being run by
  * TaskService_runPendingTasks.

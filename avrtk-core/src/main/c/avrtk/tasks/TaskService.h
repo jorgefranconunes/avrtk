@@ -20,6 +20,7 @@ extern "C" {
 
 
 
+
     typedef struct TaskServiceStruct TaskService;
 
 
@@ -53,6 +54,7 @@ extern "C" {
 
     void TaskService_cancelTask(TaskService *self,
                                 Task        *task);
+
 
 
 
