@@ -31,6 +31,7 @@
  * Executes the task.
  *
  * @public @memberof Task
+ * @pure
  *
  * @param self Reference to the Task object to be run.
  *

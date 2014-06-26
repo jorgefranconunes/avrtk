@@ -91,7 +91,6 @@ Task *CallbackTask_asTask(CallbackTask *self) {
  * Runs the task. The function given at initialization time is invoked.
  *
  * @public @memberof CallbackTask
- * @pure
  *
  * This is the implementation of method Task_run().
  *
