@@ -42,6 +42,8 @@ environment.
   actual, real, there-in-front-of-you, Atmel microcontroller connected
   to your workstation.
 
+* Doxygen 1.8.0+ -- Utility for generating the API documentation.
+
 If you are developing under Fedora or CentOS you can install the
 required development tools as following:
 
@@ -50,12 +52,14 @@ sudo yum install -y make
 sudo yum install -y gcc g++
 sudo yum install -y avr-gcc avr-bintutils avr-libc
 sudo yum install -y avrdude
+sudo yum install -y doxygen
 ----
 
 For other distributions, you will have to guess how to install the
-appropriate packages from the above.
+appropriate packages from the above example.
 
-To install the Cpputest library use the following as a suggestion.
+To install the Cpputest library you can do the following as a
+suggestion.
 
 ----
 mkdir ~/local
@@ -66,6 +70,9 @@ cd ./cpputest-3.5
 make
 make install
 ----
+
+And after that the Cpputest installation base directory will be at
++$HOME/local/cpputest-3.5+
 
 
 

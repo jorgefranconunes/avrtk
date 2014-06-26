@@ -18,12 +18,18 @@ MODULES = \
 
 
 
-.PHONY : default all check clean
+.PHONY : default all check clean doc
 
 default : all
 
 all check clean : Makefile.conf
 	@for module in $(MODULES) ; do $(MAKE) -C $$module $@ || exit 1; done
+
+doc :
+	doxygen ./make/doxygen.conf
+	@echo
+	@echo "API docs are now at ./doc/api/index.html"
+	@echo
 
 
 

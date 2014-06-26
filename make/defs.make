@@ -34,7 +34,7 @@ B_DELETE = rm -rf
 # Defaults for the "main" source set.
 #
 
-B_MAIN_C_SRCDIR   = src/main/c
+B_MAIN_C_SRCDIR = src/main/c
 B_MAIN_CC = $(B_CC)
 B_MAIN_CC_FLAGS = $(B_CC_FLAGS)
 
@@ -50,7 +50,7 @@ B_MAIN_LD_FLAGS = $(B_LD_FLAGS)
 # Defaults for the "test" source set.
 #
 
-B_TEST_C_SRCDIR   = src/test/c
+B_TEST_C_SRCDIR = src/test/c
 B_TEST_CC = $(B_CC)
 B_TEST_CC_FLAGS = $(B_CC_FLAGS)
 
