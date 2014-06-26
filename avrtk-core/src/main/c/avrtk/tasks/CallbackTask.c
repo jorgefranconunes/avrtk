@@ -2,17 +2,21 @@
  *
  * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
  *
- **************************************************************************/
-
-/**
+ *//**
  *
  * @file avrtk/tasks/CallbackTask.h
  *
  * @brief Definition of the CallbackTask class methods.
  *
- */
+ **************************************************************************/
 
-/**
+#include <avrtk/tasks/CallbackTask.h>
+
+
+
+
+
+/**********************************************************************//**
  *
  * @class CallbackTask avrtk/tasks/CallbackTask.h <avrtk/tasks/CallbackTask.h>
  *
@@ -20,9 +24,7 @@
  *
  * @brief A concrete Task whose work is performed by a function.
  *
- */
-
-#include <avrtk/tasks/CallbackTask.h>
+ **************************************************************************/
 
 
 
