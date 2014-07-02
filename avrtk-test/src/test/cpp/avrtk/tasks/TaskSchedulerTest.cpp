@@ -51,7 +51,7 @@ TEST_GROUP(TaskScheduler) {
 TEST(TaskScheduler, doInit) {
 
     CHECK_EQUAL(0, TestClock_time(testClock));
-    CHECK_EQUAL(0, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(0, TaskScheduler_getTaskCount(scheduler));
 }
 
 
@@ -83,7 +83,7 @@ TEST(TaskScheduler, addOneTask) {
     TestTask_init(&testTask);
 
     TaskScheduler_addTask(scheduler, TestTask_asTask(&testTask), 10);
-    CHECK_EQUAL(1, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(1, TaskScheduler_getTaskCount(scheduler));
 }
 
 
@@ -96,11 +96,11 @@ TEST(TaskScheduler, addTaskNoRun) {
     TestTask_init(&testTask);
 
     TaskScheduler_addTask(scheduler, TestTask_asTask(&testTask), 10);
-    CHECK_EQUAL(1, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(1, TaskScheduler_getTaskCount(scheduler));
     CHECK_EQUAL(0, TestTask_getCallCount(&testTask));
 
     TaskScheduler_runPendingTasks(scheduler);
-    CHECK_EQUAL(1, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(1, TaskScheduler_getTaskCount(scheduler));
     CHECK_EQUAL(0, TestTask_getCallCount(&testTask));
 }
 
@@ -118,11 +118,11 @@ TEST(TaskScheduler, addTaskRunOnTime) {
     TestClock_addTime(testClock, 10);
 
     TaskScheduler_runPendingTasks(scheduler);
-    CHECK_EQUAL(0, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(0, TaskScheduler_getTaskCount(scheduler));
     CHECK_EQUAL(1, TestTask_getCallCount(&testTask));
 
     TaskScheduler_runPendingTasks(scheduler);
-    CHECK_EQUAL(0, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(0, TaskScheduler_getTaskCount(scheduler));
     CHECK_EQUAL(1, TestTask_getCallCount(&testTask));
 }
 
@@ -140,13 +140,13 @@ TEST(TaskScheduler, addTaskRunAfterTime) {
     TestClock_addTime(testClock, 15);
 
     TaskScheduler_runPendingTasks(scheduler);
-    CHECK_EQUAL(0, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(0, TaskScheduler_getTaskCount(scheduler));
     CHECK_EQUAL(1, TestTask_getCallCount(&testTask));
 
     TestClock_addTime(testClock, 15);
 
     TaskScheduler_runPendingTasks(scheduler);
-    CHECK_EQUAL(0, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(0, TaskScheduler_getTaskCount(scheduler));
     CHECK_EQUAL(1, TestTask_getCallCount(&testTask));
 }
 
@@ -160,10 +160,10 @@ TEST(TaskScheduler, cancelTask) {
     TestTask_init(&testTask);
 
     TaskScheduler_addTask(scheduler, TestTask_asTask(&testTask), 10);
-    CHECK_EQUAL(1, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(1, TaskScheduler_getTaskCount(scheduler));
 
     TaskScheduler_cancelTask(scheduler, TestTask_asTask(&testTask));
-    CHECK_EQUAL(0, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(0, TaskScheduler_getTaskCount(scheduler));
 }
 
 
@@ -179,22 +179,22 @@ TEST(TaskScheduler, addPeriodicTask) {
                                   TestTask_asTask(&testTask),
                                   5,
                                   10);
-    CHECK_EQUAL(1, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(1, TaskScheduler_getTaskCount(scheduler));
 
     TaskScheduler_runPendingTasks(scheduler);
-    CHECK_EQUAL(1, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(1, TaskScheduler_getTaskCount(scheduler));
     CHECK_EQUAL(0, TestTask_getCallCount(&testTask));
 
     TestClock_addTime(testClock, 10);
 
     TaskScheduler_runPendingTasks(scheduler);
-    CHECK_EQUAL(1, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(1, TaskScheduler_getTaskCount(scheduler));
     CHECK_EQUAL(1, TestTask_getCallCount(&testTask));
 
     TestClock_addTime(testClock, 10);
 
     TaskScheduler_runPendingTasks(scheduler);
-    CHECK_EQUAL(1, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(1, TaskScheduler_getTaskCount(scheduler));
     CHECK_EQUAL(2, TestTask_getCallCount(&testTask));
 }
 
@@ -211,25 +211,25 @@ TEST(TaskScheduler, cancelPeriodicTask) {
                                   TestTask_asTask(&testTask),
                                   5,
                                   10);
-    CHECK_EQUAL(1, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(1, TaskScheduler_getTaskCount(scheduler));
 
     TaskScheduler_runPendingTasks(scheduler);
-    CHECK_EQUAL(1, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(1, TaskScheduler_getTaskCount(scheduler));
     CHECK_EQUAL(0, TestTask_getCallCount(&testTask));
 
     TestClock_addTime(testClock, 10);
 
     TaskScheduler_runPendingTasks(scheduler);
-    CHECK_EQUAL(1, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(1, TaskScheduler_getTaskCount(scheduler));
     CHECK_EQUAL(1, TestTask_getCallCount(&testTask));
 
     TestClock_addTime(testClock, 10);
 
     TaskScheduler_cancelTask(scheduler, TestTask_asTask(&testTask));
-    CHECK_EQUAL(0, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(0, TaskScheduler_getTaskCount(scheduler));
 
     TaskScheduler_runPendingTasks(scheduler);
-    CHECK_EQUAL(0, TaskScheduler_getPendingCount(scheduler));
+    CHECK_EQUAL(0, TaskScheduler_getTaskCount(scheduler));
     CHECK_EQUAL(1, TestTask_getCallCount(&testTask));
 }
 

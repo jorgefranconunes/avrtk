@@ -2,12 +2,33 @@
  *
  * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
  *
+ *//**
+ *
+ * @file avrtk/tasks/TaskScheduler.h
+ *
+ * @brief Definition of the TaskScheduler class methods.
+ *
  **************************************************************************/
 
 #include <stdbool.h>
 #include <stddef.h>
 
 #include <avrtk/tasks/TaskScheduler.h>
+
+
+
+
+
+/**********************************************************************//**
+ *
+ * @class TaskScheduler avrtk/tasks/TaskScheduler.h <avrtk/tasks/TaskScheduler.h>
+ *
+ * @brief Used for running tasks.
+ *
+ * Tasks are run synchronously upon an explicit request. All tasks
+ * that are past their execution time will then be executed.
+ *
+ **************************************************************************/
 
 
 
@@ -20,9 +41,16 @@ static void TaskScheduler_addInitializedTask(TaskScheduler *self,
 
 
 
-/**************************************************************************
+/**********************************************************************//**
  *
+ * Initializes a TaskScheduler object.
+ *
+ * @public @memberof TaskScheduler
  * 
+ * @param self Reference to the TaskScheduler object to be initialized.
+ *
+ * @param clock Used for obtaining the system current time when
+ * checking which tasks are to be run.
  *
  **************************************************************************/
 
@@ -39,13 +67,20 @@ TaskScheduler *TaskScheduler_init(TaskScheduler *self,
 
 
 
-/**************************************************************************
+/**********************************************************************//**
  *
- * 
+ * Retrieves the number of tasks currently under control of the
+ * TaskScheduler.
+ *
+ * @public @memberof TaskScheduler
+ *
+ * @param self
+ *
+ * @return The number of tasks that are yet to be run.
  *
  **************************************************************************/
 
-int TaskScheduler_getPendingCount(TaskScheduler *self) {
+int TaskScheduler_getTaskCount(TaskScheduler *self) {
 
     int count = 0;
     
@@ -60,13 +95,26 @@ int TaskScheduler_getPendingCount(TaskScheduler *self) {
 
 
 
-/**************************************************************************
+/**********************************************************************//**
  *
- * The Task will be in use until the Task is run by a call to the
- * TaskScheduler_runPendingTasks method.
+ * Adds a task to be executed one single time at a later time.
+ * 
+ * The Task will be in use until the Task is actually run by a call to
+ * the TaskScheduler_runPendingTasks method.
  *
  * This method can be called from within a task being run by
- * TaskScheduler_runPendingTasks.
+ * TaskScheduler_runPendingTasks. It is also allowed to call this
+ * method for the same task that is being run, as long as that task
+ * had been previously added through this method.
+ *
+ * @public @memberof TaskScheduler
+ *
+ * @param self
+ *
+ * @param task The Task to be run at a later time.
+ *
+ * @param delay The delay in milliseconds, counted from the current
+ * clock time, after which the task is to be executed.
  *
  **************************************************************************/
 
@@ -81,12 +129,28 @@ void TaskScheduler_addTask(TaskScheduler *self,
 
 
 
-/**************************************************************************
+/**********************************************************************//**
+ *
+ * Adds a task to be executed periodically.
  *
  * The Task will be in use until the given task is cancelled.
  *
  * This method can be called from within a task being run by
- * TaskScheduler_runPendingTasks.
+ * TaskScheduler_runPendingTasks. But only using a different Task
+ * object.
+ *
+ * @public @memberof TaskScheduler
+ *
+ * @param self
+ *
+ * @param task The Task to be executed periodically at a later time.
+ *
+ * @param delay The delay in milliseconds, counted from the current
+ * clock time, after which the task is to start executing
+ * periodically.
+ *
+ * @param period The interval, in milliseconds, between consecutive
+ * executions of the given task.
  *
  **************************************************************************/
 
@@ -137,13 +201,24 @@ static void TaskScheduler_addInitializedTask(TaskScheduler *self,
 
 
 
-/**************************************************************************
+/**********************************************************************//**
  *
+ * Prevents a task from being executed. If the task was a one shot
+ * task then it will not be executed at all. If the task as a periodic
+ * task then it will not be executed any more from now on.
+ * 
  * The Task is guaranteed to be no longer in use by the TaskScheduler
  * by the time this method returns.
  *
  * This method can be called from within a task being run by
- * TaskScheduler_runPendingTasks.
+ * TaskScheduler_runPendingTasks. This means a periodic task can
+ * cancel itself during its execution.
+ *
+ * @public @memberof TaskScheduler
+ *
+ * @param self
+ *
+ * @param task The Task to be canceled.
  *
  **************************************************************************/
 
@@ -170,10 +245,21 @@ void TaskScheduler_cancelTask(TaskScheduler *self,
 
 
 
-/**************************************************************************
+/**********************************************************************//**
  *
- * Do not call this method from within a Task. Otherwise bad things
- * will happen to you.
+ * Runs all tasks that are ready to be executed.
+ *
+ * A task is ready to be executed if the time for its execution is in
+ * the past relative to the current system time reported by the Clock
+ * object.
+ *
+ * It is undefined behaviour call this method from within a Task being
+ * executed by this TaskScheduler. Just don't do it, otherwise bad
+ * things will happen to you.
+ *
+ * @public @memberof TaskScheduler
+ *
+ * @param self
  *
  **************************************************************************/
 

@@ -2,28 +2,31 @@
  *
  * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
  *
- **************************************************************************/
-
-/**
+ *//**
  *
  * @file avrtk/tasks/TaskService.h
  *
  * @brief Definition of the TaskService class methods.
  *
- */
-
-/**
- *
- * @class TaskService avrtk/tasks/TaskService.h <avrtk/tasks/TaskService.h>
- *
- * @brief Used for executing tasks at a given time or periodically.
- *
- */
+ **************************************************************************/
 
 #include <stddef.h>
 
 #include <avrtk/tasks/TaskService.h>
 #include <avrtk/ticks/TickEventType.h>
+
+
+
+
+
+/**********************************************************************//**
+ *
+ * @class TaskService avrtk/tasks/TaskService.h <avrtk/tasks/TaskService.h>
+ *
+ * @brief Used for executing tasks at a given future time. A task can
+ * be scheduled to run only once or to run periodically.
+ *
+ **************************************************************************/
 
 
 
@@ -40,12 +43,10 @@ static void
 TaskServiceTickListener_notify(EventListener *self,
                                Event         *Event);
 
+
 static EventListenerInterface taskServiceEventListenerInterface = {
     .notify = TaskServiceTickListener_notify
 };
-
-
-
 
 
 static void TaskService_tickEvent(TaskService *self);
@@ -234,7 +235,7 @@ TaskServiceTickListener_init(TaskServiceTickListener *self,
  *
  **************************************************************************/
 
-EventListener *
+static EventListener *
 TaskServiceTickListener_asEventListener(TaskServiceTickListener *self) {
 
     EventListener *result = (EventListener *)self;

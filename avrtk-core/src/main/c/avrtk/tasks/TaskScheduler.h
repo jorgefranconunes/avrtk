@@ -26,7 +26,7 @@ extern "C" {
     TaskScheduler *TaskScheduler_init(TaskScheduler *self,
                                       Clock         *clock);
 
-    int TaskScheduler_getPendingCount(TaskScheduler *self);
+    int TaskScheduler_getTaskCount(TaskScheduler *self);
 
     void TaskScheduler_addTask(TaskScheduler *self,
                                Task          *task,

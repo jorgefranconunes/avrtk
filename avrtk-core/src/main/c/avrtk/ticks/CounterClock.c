@@ -4,7 +4,7 @@
  *
  *//**
  *
- * @file avrtk/ticks/CouterClock.h
+ * @file avrtk/ticks/CounterClock.h
  *
  * @brief Definition of the CounterClock class methods.
  *
