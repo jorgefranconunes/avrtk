@@ -1,0 +1,44 @@
+AvrTk - Button Service
+======================
+
+
+
+
+
+This documents contains notes on the design of the button service of
+the AvrTk toolkit. It will eventually become a tutorial on how to use
+the button service (or not).
+
+
+
+
+
+== Interface
+
+
+interface ButtonService
+
+
+ButtonChannel *newButtonChannel(int buttonId);
+
+
+
+
+
+class ButtonChannel
+
+int  getId();
+void addButtonListener(ButtonListener *listener);
+bool isPressed();
+
+void onChange(bool isPressed);
+
+
+
+
+
+interface ButtonListener
+
+void onPress(ButtonChannel *button);
+void onRelease(ButtonChannel *button);
+void onToggle(ButtonChannel *button);
