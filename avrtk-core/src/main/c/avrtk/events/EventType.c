@@ -19,6 +19,7 @@
 /**********************************************************************//**
  *
  * @class EventType avrtk/events/EventType.h <avrtk/events/EventType.h>
+ * @ingroup avrtk_events
  *
  * @brief The type of an event.
  *

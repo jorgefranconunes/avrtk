@@ -19,6 +19,7 @@
 /**********************************************************************//**
  *
  * @interface EventListener avrtk/events/EventListener.h <avrtk/events/EventListener.h>
+ * @ingroup avrtk_events
  *
  * @brief A consumer of events.
  *

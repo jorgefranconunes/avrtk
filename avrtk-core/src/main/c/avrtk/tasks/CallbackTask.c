@@ -19,8 +19,8 @@
 /**********************************************************************//**
  *
  * @class CallbackTask avrtk/tasks/CallbackTask.h <avrtk/tasks/CallbackTask.h>
- *
  * @implements Task
+ * @ingroup avrtk_tasks
  *
  * @brief A concrete Task whose work is performed by a function.
  *

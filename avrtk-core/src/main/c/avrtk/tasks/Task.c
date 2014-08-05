@@ -19,6 +19,7 @@
 /**********************************************************************//**
  *
  * @interface Task avrtk/tasks/Task.h <avrtk/tasks/Task.h>
+ * @ingroup avrtk_tasks
  *
  * @brief A piece of work intended to be run by a TaskService.
  *

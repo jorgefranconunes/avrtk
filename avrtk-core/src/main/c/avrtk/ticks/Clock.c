@@ -19,6 +19,7 @@
 /**********************************************************************//**
  *
  * @interface Clock avrtk/ticks/Clock.h <avrtk/ticks/Clock.h>
+ * @ingroup avrtk_ticks
  *
  * @brief Provides access to the system time.
  *

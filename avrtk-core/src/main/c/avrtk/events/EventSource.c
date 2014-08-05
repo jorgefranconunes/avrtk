@@ -19,6 +19,7 @@
 /**********************************************************************//**
  *
  * @interface EventSource avrtk/events/EventSource.h <avrtk/events/EventSource.h>
+ * @ingroup avrtk_events
  *
  * @brief A producer of events.
  *

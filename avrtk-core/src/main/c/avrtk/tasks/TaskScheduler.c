@@ -22,6 +22,7 @@
 /**********************************************************************//**
  *
  * @class TaskScheduler avrtk/tasks/TaskScheduler.h <avrtk/tasks/TaskScheduler.h>
+ * @ingroup avrtk_tasks
  *
  * @brief Used for running tasks.
  *

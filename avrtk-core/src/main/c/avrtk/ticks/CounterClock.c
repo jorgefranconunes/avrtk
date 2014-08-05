@@ -19,8 +19,8 @@
 /**********************************************************************//**
  *
  * @class CounterClock avrtk/ticks/CounterClock.h <avrtk/ticks/CounterClock.h>
- *
  * @implements Clock
+ * @ingroup avrtk_ticks
  *
  * @brief A concrete Clock that calculates time from an externally
  * provided counter.

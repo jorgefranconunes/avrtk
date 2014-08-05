@@ -22,6 +22,7 @@
 /**********************************************************************//**
  *
  * @class TaskService avrtk/tasks/TaskService.h <avrtk/tasks/TaskService.h>
+ * @ingroup avrtk_tasks
  *
  * @brief Used for executing tasks at a given future time. A task can
  * be scheduled to run only once or to run periodically.
