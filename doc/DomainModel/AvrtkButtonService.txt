@@ -18,8 +18,30 @@ the button service (or not).
 
 interface ButtonService
 
+This interface provides access to the buttons available in the
+system. A "button" is just one of the available IO pins. We treat a
+"button" as a source of events (press, release). When determining if a
+"button" has changed state (was pressed, was released) the appropriate
+de-bouncing is supposed to have been performed by the implementations
+of this interface. The main purpose of this interface and related
+interfaces is thus:
+
+* Treat "buttons" as sources of asynchronous events.
+
+* The implementations must handle de-bouncing in an appropriate
+  way. That means clients of this interface do not have to worry about
+  de-bouncing.
+
 
 ButtonChannel *newButtonChannel(int buttonId);
+
+Creates a new button object and associates it with a concrete IO pin.
+
+The provided button ID uniquely identifies one IO pin. The
+correspondence between button ID and IO pin dependens on the exact AVR
+chip model. You will have to check the AvrTk documentation for your
+(hopefully supported) chip model for information on how button IDs are
+mapped to IO pins.
 
 
 
@@ -28,10 +50,20 @@ ButtonChannel *newButtonChannel(int buttonId);
 class ButtonChannel
 
 int  getId();
+
+
 void addButtonListener(ButtonListener *listener);
+
+Registers a listener to be notified of events related with this
+button.
+
+A given listener instance must only be added to one
+ButtonChannel. Doing otherwise results in undefined behaviour.
+
+
 bool isPressed();
 
-void onChange(bool isPressed);
+Checks if the button is currently in the pressed state.
 
 
 
@@ -39,6 +71,62 @@ void onChange(bool isPressed);
 
 interface ButtonListener
 
+Defines the behaviour to be implemented by objects that wish to be
+notified of events related to a given button.
+
+
 void onPress(ButtonChannel *button);
+
+Called when the button is pressed.
+
+
 void onRelease(ButtonChannel *button);
+
+Called when the button os released.
+
+
 void onToggle(ButtonChannel *button);
+
+
+
+
+
+== Demos
+
+
+=== Simple button demo
+
+Circuit with one button and three LEDs (1, 2, and 3).
+
+When the button is pressed:
+
+* LED 1 changes state (if it was off it becomes on; if it was on it
+  becomes off).
+
+* LED 3 turns on.
+
+
+When the button is released:
+
+* LED 2 changes state.
+
+* LED 3 turns off.
+
+
+This simple demo is intended to illustrate the use of the
+ButtonListener interface.
+
+
+
+
+
+=== Rotate through LED sequences.
+
+Circuit with one button and a set of LEDs. The LEDs display a sequence
+of values that change in time (think Cylon eye). At any moment in time
+one given sequence is being used. There are multiple sequence.
+
+Pressing the button changes the sequence being played in the LEDs.
+
+This demo shows in a more mediatic way the button is being sensed by
+the Arduino board.
