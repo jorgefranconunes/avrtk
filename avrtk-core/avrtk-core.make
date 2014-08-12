@@ -20,6 +20,9 @@ AVRTK_CORE_C_SOURCES += \
 	avrtk/adc/CallbackAdcListener.c
 
 AVRTK_CORE_C_SOURCES += \
+	avrtk/buttons/ButtonListener.c
+
+AVRTK_CORE_C_SOURCES += \
 	avrtk/events/Event.c \
 	avrtk/events/EventListener.c \
 	avrtk/events/EventManager.c \

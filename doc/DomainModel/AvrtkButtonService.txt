@@ -75,17 +75,17 @@ Defines the behaviour to be implemented by objects that wish to be
 notified of events related to a given button.
 
 
-void onPress(ButtonChannel *button);
+void onPress(int buttonId);
 
 Called when the button is pressed.
 
 
-void onRelease(ButtonChannel *button);
+void onRelease(int buttonId);
 
 Called when the button os released.
 
 
-void onToggle(ButtonChannel *button);
+void onToggle(int buttonId);
 
 
 
