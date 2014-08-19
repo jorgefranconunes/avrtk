@@ -11,7 +11,9 @@
 extern "C" {
 #endif
 
-#include <avr/buttons/ButtonListener.h>
+#include <stdbool.h>
+
+#include <avrtk/buttons/ButtonListener.h>
 
 
 

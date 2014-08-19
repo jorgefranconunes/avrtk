@@ -6,7 +6,7 @@
 
 /**
 
-@defgroup avrtk_tasks avrtk/asks
+@defgroup avrtk_tasks avrtk/tasks
 
 @brief Interfaces and classes for the execution of tasks.
 
