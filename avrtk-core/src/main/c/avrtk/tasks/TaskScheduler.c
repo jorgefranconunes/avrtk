@@ -254,9 +254,9 @@ void TaskScheduler_cancelTask(TaskScheduler *self,
  * the past relative to the current system time reported by the Clock
  * object.
  *
- * It is undefined behaviour call this method from within a Task being
- * executed by this TaskScheduler. Just don't do it, otherwise bad
- * things will happen to you.
+ * It is undefined behaviour to call this method from within a Task
+ * being executed by this TaskScheduler. Just don't do it, otherwise
+ * bad things will happen to you.
  *
  * @public @memberof TaskScheduler
  *
