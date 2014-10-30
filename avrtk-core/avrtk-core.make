@@ -41,6 +41,7 @@ AVRTK_CORE_C_SOURCES += \
 	avrtk/tasks/Task.c \
 	avrtk/tasks/TaskScheduler.c \
 	avrtk/tasks/TaskService.c \
+	avrtk/tasks/TickTaskService.c \
 
 AVRTK_CORE_C_SOURCES += \
 	avrtk/ticks/Clock.c \

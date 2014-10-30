@@ -33,6 +33,7 @@ extern "C" {
 
 
     struct TickTaskServiceStruct {
+        TaskService             base;
         EventManager           *eventManager;
         TaskScheduler           scheduler;
         TaskServiceTickListener tickListener;

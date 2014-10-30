@@ -9,7 +9,7 @@
 
 #include <avrtk/sys/SysEventManager.h>
 #include <avrtk/sys/SysTickSource.h>
-#include <avrtk/tasks/TaskService.h>
+#include <avrtk/tasks/TickTaskService.h>
 
 
 
@@ -17,9 +17,9 @@
 
 static void init(void);
 
-static bool         _isInited = false;
-static TaskService  _taskServiceData;
-static TaskService *_taskService = NULL;
+static bool            _isInited = false;
+static TickTaskService _taskServiceData;
+static TaskService    *_taskService = NULL;
 
 
 
@@ -54,10 +54,12 @@ static void init() {
         return;
     }
 
-    EventManager *eventManager = SysEventManager_get();
-    Clock        *clock        = SysTickSource_getClock();
-    TaskService  *taskService  =
-        TaskService_init(&_taskServiceData, eventManager, clock);
+    EventManager    *eventManager     = SysEventManager_get();
+    Clock           *clock            = SysTickSource_getClock();
+    TickTaskService *tickTaskService  =
+        TickTaskService_init(&_taskServiceData, eventManager, clock);
+    TaskService     *taskService      =
+        TickTaskService_asTaskService(tickTaskService);
 
     TaskService_start(taskService);
 

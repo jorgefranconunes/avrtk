@@ -126,7 +126,7 @@ void CounterClock_update(CounterClock *self,
  *
  * @param self Reference to the object.
  *
- * @return A reference to the same CallbackTask object this method was
+ * @return A reference to the same CounterClock object this method was
  * called for.
  *
  **************************************************************************/

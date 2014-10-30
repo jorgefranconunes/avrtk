@@ -7,7 +7,7 @@
 #include <CppUTest/TestHarness.h>
 
 #include <avrtk/events/Event.h>
-#include <avrtk/tasks/TaskService.h>
+#include <avrtk/tasks/TickTaskService.h>
 #include <avrtk/ticks/TickEventType.h>
 
 #include <avrtk/events/TestEventSource.h>
@@ -45,8 +45,9 @@ TEST_GROUP(TaskService) {
     EventManager  eventManagerData;
     EventManager *eventManager;
 
-    TaskService   taskServiceData;
-    TaskService  *taskService;
+    TickTaskService  taskServiceData;
+    TickTaskService *tickTaskService;
+    TaskService     *taskService;
 
 
 
@@ -68,10 +69,11 @@ TEST_GROUP(TaskService) {
         EventManager_addSource(eventManager,
                                TestEventSource_asEventSource(tickEventSource));
 
-        taskService =
-            TaskService_init(&taskServiceData,
-                             eventManager,
-                             TestClock_asClock(testClock));
+        tickTaskService =
+            TickTaskService_init(&taskServiceData,
+                                 eventManager,
+                                 TestClock_asClock(testClock));
+        taskService = TickTaskService_asTaskService(tickTaskService);
         TaskService_start(taskService);
     }
 

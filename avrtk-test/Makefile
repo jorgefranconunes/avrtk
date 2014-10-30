@@ -62,7 +62,7 @@ B_TEST_CXX_SOURCES = \
 	avrtk/sys/SysTickSourceTest.cpp \
 	avrtk/tasks/CallbackTaskTest.cpp \
 	avrtk/tasks/TaskSchedulerTest.cpp \
-	avrtk/tasks/TaskServiceTest.cpp \
+	avrtk/tasks/TickTaskServiceTest.cpp \
 	avrtk/ticks/CounterClockTest.cpp \
 	avrtk/ticks/CounterTickSourceTest.cpp \
 	avrtk/ticks/TickEventTypeTest.cpp

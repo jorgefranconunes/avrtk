@@ -17,10 +17,12 @@ extern "C" {
 
     typedef struct ClockStruct Clock;
 
+
     typedef struct ClockInterfaceStruct ClockInterface;
     struct ClockInterfaceStruct {
         long (*currentTimeMillis)(Clock *);
     };
+
 
     struct ClockStruct {
         ClockInterface *vtable;

@@ -21,7 +21,9 @@
 
 /**********************************************************************//**
  *
- * @class TickTaskService avrtk/tasks/TickTaskService.h <avrtk/tasks/TickTaskService.h> @ingroup avrtk_tasks
+ * @class TickTaskService avrtk/tasks/TickTaskService.h <avrtk/tasks/TickTaskService.h>
+ * @implements TaskService
+ * @ingroup avrtk_tasks
  *
  * @brief A concrete implementation of the TaskService interface that
  * uses a Clock to schedule the execution of tasks.
@@ -50,10 +52,10 @@ static void TickTaskService_tickEvent(TickTaskService *self);
 
 
 static TaskServiceInterface interface = {
-    .start           = TaskServiceInterface_start,
-    .addTask         = TaskServiceInterface_addTask,
-    .addPeriodicTask = TaskServiceInterface_addPeriodicTask,
-    .cancelTask      = TaskServiceInterface_cancelTask
+    .start           = TickTaskService_start,
+    .addTask         = TickTaskService_addTask,
+    .addPeriodicTask = TickTaskService_addPeriodicTask,
+    .cancelTask      = TickTaskService_cancelTask
 };
 
 
@@ -65,7 +67,7 @@ TaskServiceTickListener_asEventListener(TaskServiceTickListener *self);
 
 static void
 TaskServiceTickListener_init(TaskServiceTickListener *self,
-                             TickTaskService             *taskService);
+                             TickTaskService         *taskService);
 
 static void
 TaskServiceTickListener_notify(EventListener *self,
@@ -103,11 +105,37 @@ TickTaskService *TickTaskService_init(TickTaskService *self,
                                       EventManager    *eventManager,
                                       Clock           *clock) {
 
+    self->base.vtable  = &interface;
     self->eventManager = eventManager;
+
     TaskScheduler_init(&self->scheduler, clock);
     TaskServiceTickListener_init(&self->tickListener, self);
 
     return self;
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * Casts a TickTaskService reference to a TaskService reference.
+ *
+ * @public @memberof TickTaskService
+ *
+ * @param self Reference to the object.
+ *
+ * @return A reference to the same TickTaskService object this method
+ * was called for.
+ *
+ **************************************************************************/
+
+TaskService *TickTaskService_asTaskService(TickTaskService *self) {
+
+    TaskService *result = (TaskService *)self;
+
+    return result;
 }
 
 
@@ -128,7 +156,7 @@ TickTaskService *TickTaskService_init(TickTaskService *self,
  *
  **************************************************************************/
 
-static void TickTaskService_start(TaskService  *self) {
+static void TickTaskService_start(TaskService  *baseSelf) {
 
     TickTaskService *self         = (TickTaskService *)baseSelf;
     EventListener   *tickListener =
@@ -194,7 +222,7 @@ static void TickTaskService_addPeriodicTask(TaskService *baseSelf,
                                             long         delay,
                                             long         period) {
 
-    TickTaskService *self = (TickTaskService)baseSelf;
+    TickTaskService *self = (TickTaskService *)baseSelf;
 
     TaskScheduler_addPeriodicTask(&self->scheduler, task, delay, period);
 }
@@ -216,10 +244,10 @@ static void TickTaskService_addPeriodicTask(TaskService *baseSelf,
  *
  **************************************************************************/
 
-static void TickTaskService_cancelTask(TaskService *self,
+static void TickTaskService_cancelTask(TaskService *baseSelf,
                                        Task        *task) {
 
-    TickTaskService *self = (TickTaskService)baseSelf;
+    TickTaskService *self = (TickTaskService *)baseSelf;
 
     TaskScheduler_cancelTask(&self->scheduler, task);
 }

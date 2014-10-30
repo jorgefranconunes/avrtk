@@ -33,13 +33,13 @@
  *
  * Retrieves the current system time.
  *
+ * @public @memberof Clock
+ * @pure
+ *
  * There are no guarantees on the time origin. The contract for this
  * method is that the difference between values returned by two calls
  * correspond to the time interval, in milliseconds, between those two
  * calls.
- *
- * @public @memberof Clock
- * @pure
  *
  * @param self Reference to the Clock object to be queried.
  *
