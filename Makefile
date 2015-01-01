@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+# Copyright (c) 2014-2015 Jorge Nunes, All Rights Reserved.
 #
 ###########################################################################
 
@@ -14,6 +14,7 @@ MODULES = \
 	demos/BlinkVariable101 \
 	demos/Blink101 \
 	demos/BlinkMany \
+	demos/BlinkManyVariable \
 	demos/HelloWorld
 
 

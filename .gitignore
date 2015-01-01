@@ -1,5 +1,7 @@
 *~
+*.a
 *.aux
+*.hex
 *.log
 *.out
 *.pid
