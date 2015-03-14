@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2015 Jorge Nunes, All Rights Reserved.
  *
  *//**
  *
@@ -39,8 +39,6 @@
  *
  * @param self 
  *
- * @param button The Button being passed to this ButtonListener.
- *
  * @param buttonId The ID of the button that was pressed.
  *
  **************************************************************************/
@@ -63,8 +61,6 @@ void ButtonListener_onPress(ButtonListener *self,
  * @pure
  *
  * @param self 
- *
- * @param button The Button being passed to this ButtonListener.
  *
  * @param buttonId The ID of the button that was pressed.
  *

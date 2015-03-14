@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2015 Jorge Nunes, All Rights Reserved.
  *
  *//**
  *
@@ -152,7 +152,7 @@ TaskService *TickTaskService_asTaskService(TickTaskService *self) {
  * Upon returning from this method, the TickTaskService will start
  * listening for tick events distributed by the EventManager.
  *
- * @param self Reference to the TickTaskService object being used.
+ * @param baseSelf Reference to the TickTaskService object being used.
  *
  **************************************************************************/
 
@@ -182,7 +182,7 @@ static void TickTaskService_start(TaskService  *baseSelf) {
  * other tasks. The task object can even add itself to this
  * TickTaskService.
  *
- * @param self Reference to the TickTaskService object being used.
+ * @param baseSelf Reference to the TickTaskService object being used.
  *
  * @param task Reference to the Task instance to be executed.
  *
@@ -214,6 +214,16 @@ static void TickTaskService_addTask(TaskService *baseSelf,
  *
  * This method can be called from within a task being run by
  * TickTaskService_runPendingTasks.
+ *
+ * @param baseSelf Reference to the TickTaskService object being used.
+ *
+ * @param task Reference to the Task instance to be executed.
+ *
+ * @param delay Delay, in milliseconds, after which the task is to be
+ * executed for the first time.
+ *
+ * @param period The interval, in milliseconds, between consecutive
+ * executions of the given task.
  *
  **************************************************************************/
 

@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2015 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -22,6 +22,7 @@ static void     startAtm328AdcConversion(int channel);
 
 static bool _isInited = false;
 
+// These are changed within the ADC_vect interrupt handler.
 static volatile bool     _isAdcCompleted = false;
 static volatile uint16_t _adcValue       = 0;
 
@@ -81,7 +82,7 @@ static void setupAdm328Adc() {
     // ADC Auto Trigger Enable is off to start a single conversion.
     ADCSRA &= ~_BV(ADATE);
 
-    // ADC Interrupt Enable is on, wo we will get an interrupt when
+    // ADC Interrupt Enable is on, so we will get an interrupt when
     // the conversion completes.
     ADCSRA |= _BV(ADIE);
 
@@ -94,7 +95,7 @@ static void setupAdm328Adc() {
 
 /**************************************************************************
  *
- * 
+ * Initiates one conversion on the given channel.
  *
  **************************************************************************/
 
