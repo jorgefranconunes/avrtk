@@ -2,7 +2,7 @@
 #include <util/delay.h>
 
 
-const double BLINK_DELAY_MS = 1000.0;
+const double BLINK_DELAY_MS = 500.0;
  
 
 int main (void) {
@@ -17,7 +17,7 @@ int main (void) {
  
         /* Set pin 5 low to turn led off */
         PORTD &= ~_BV(PORTD5);
-        _delay_ms(BLINK_DELAY_MS/2.0);
+        _delay_ms(BLINK_DELAY_MS);
     }
  
     return 0;

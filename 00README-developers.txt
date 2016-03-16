@@ -121,7 +121,22 @@ make -C ./avrtk-test check
 
 == Uploading a program to Arduino
 
-TBD...
+First, add yourself do group 'dialout':
+
+----
+su --command="usermod -a -G dialout $(whoami)"
+----
+
+To upload the code to the Arduino board:
+
+----
+avrdude \
+    -c arduino \
+    -p ATMEGA328P \
+    -P /dev/ttyACM0 \
+    -U flash:w:./bin/HelloWorld-0.0.2-atmega328p.hex:i
+----
+
 
 
 
