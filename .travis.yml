@@ -1,0 +1,27 @@
+#
+# Travis CI job configuration for the avrtk project.
+#
+# https://travis-ci.org/
+#
+
+addons:
+    apt:
+        packages:
+            - gcc-avr
+            - binutils-avr
+            - avr-libc
+            - doxygen
+
+before_script:
+    - mkdir ~/tmp ~/local
+    - wget -O ~/tmp/cpputest-3.5.tar.gz 'https://github.com/cpputest/cpputest.github.io/blob/master/releases/cpputest-3.5.tar.gz?raw=true'
+    - (cd ~/tmp/ ; tar xfz ./cpputest-3.5.tar.gz)
+    - pushd ~/tmp/cpputest-3.5
+    - ./configure --prefix=$HOME/local/cpputest-3.5 && make && make install
+    - popd
+
+script:
+    - echo "AVRTK_CPPUTEST = $HOME/local/cpputest-3.5" > Makefile.conf
+    - make && make check && make doc
+
+

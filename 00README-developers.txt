@@ -66,7 +66,7 @@ mkdir ~/local
 wget 'https://github.com/cpputest/cpputest.github.io/blob/master/releases/cpputest-3.5.tar.gz?raw=true'
 tar xfz ./cpputest-3.5.tar.gz
 cd ./cpputest-3.5
-./configure --prefix=$HOME/local
+./configure --prefix=$HOME/local/cpputest-3.5
 make
 make install
 ----

@@ -1,3 +1,6 @@
+image:https://travis-ci.org/jorgefranconunes/avrtk.svg?branch=master["Build Status", link="https://travis-ci.org/jorgefranconunes/avrtk"]
+
+
 == AvrTk
 
 Library toolkit for the Atmel AVR family of microcontrollers.
