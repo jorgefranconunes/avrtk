@@ -1,21 +1,21 @@
 ###########################################################################
 #
-# Copyright (c) 2014-2015 Jorge Nunes, All Rights Reserved.
+# Copyright (c) 2014-2016 Jorge Nunes, All Rights Reserved.
 #
 ###########################################################################
 
 MODULES = \
 	avrtk-test \
 	avrtk-atm328p \
-	demos/AdcGauge \
-	demos/AdcGauge101 \
-	demos/Blink \
-	demos/BlinkVariable \
-	demos/BlinkVariable101 \
-	demos/Blink101 \
-	demos/BlinkMany \
-	demos/BlinkManyVariable \
-	demos/HelloWorld
+	demos/001-HelloWorld \
+	demos/002-Blink101 \
+	demos/003-Blink \
+	demos/004-BlinkMany \
+	demos/005-BlinkVariable101 \
+	demos/006-BlinkVariable \
+	demos/007-BlinkManyVariable \
+	demos/008-AdcGauge101 \
+	demos/009-AdcGauge \
 
 
 
