@@ -1,5 +1,4 @@
-AVR Toolkit - Setting up the Development Environment
-====================================================
+= AVR Toolkit - Setting up the Development Environment
 
 
 
@@ -28,8 +27,8 @@ environment.
 ** GCC 4.4+ cross compiler for the AVR platform. Home:
    http://gcc.gnu.org/wiki/avr-gcc
 
-** GNU binutils 2.20+ package (as, ld, objcopy and friends) for the AVR
-   platform.
+** GNU binutils 2.20+ package (`as`, `ld`, `objcopy` and friends) for
+   the AVR platform.
 
 ** AVR Libc 1.6.7+ -- Libc implementation for the AVR platform. It
    also includes very usefull functions and macros to interact
@@ -49,8 +48,8 @@ required development tools as following:
 
 ----
 sudo yum install -y make
-sudo yum install -y gcc g++
-sudo yum install -y avr-gcc avr-bintutils avr-libc
+sudo yum install -y gcc gcc-c++
+sudo yum install -y avr-gcc avr-binutils avr-libc
 sudo yum install -y avrdude
 sudo yum install -y doxygen
 ----
@@ -72,7 +71,7 @@ make install
 ----
 
 And after that the Cpputest installation base directory will be at
-+$HOME/local/cpputest-3.5+
+`$HOME/local/cpputest-3.5`.
 
 
 
@@ -81,7 +80,7 @@ And after that the Cpputest installation base directory will be at
 == Configure the development tree
 
 In order to use the build system you will need to create a
-configuration file named +Makfile.conf+ in the root of the source
+configuration file named `Makfile.conf` in the root of the source
 tree. See an example below and adapt it to you specific environment:
 
 ----
@@ -108,7 +107,7 @@ unit tests:
 make check
 ----
 
-As currently the unit tests are all concentrated in the +avrtk-test+
+As currently the unit tests are all concentrated in the `avrtk-test`
 module you can run them with a less verbose output like this:
 
 ----
