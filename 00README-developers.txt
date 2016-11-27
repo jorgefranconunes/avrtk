@@ -62,7 +62,9 @@ suggestion.
 
 ----
 mkdir ~/local
-wget 'https://github.com/cpputest/cpputest.github.io/blob/master/releases/cpputest-3.5.tar.gz?raw=true'
+wget \
+    -O cpputest-3.5.tar.gz \
+    'https://github.com/cpputest/cpputest.github.io/blob/master/releases/cpputest-3.5.tar.gz?raw=true'
 tar xfz ./cpputest-3.5.tar.gz
 cd ./cpputest-3.5
 ./configure --prefix=$HOME/local/cpputest-3.5
@@ -133,7 +135,7 @@ avrdude \
     -c arduino \
     -p ATMEGA328P \
     -P /dev/ttyACM0 \
-    -U flash:w:./bin/HelloWorld-0.0.2-atmega328p.hex:i
+    -U flash:w:./bin/001-HelloWorld-0.0.2-atmega328p.hex:i
 ----
 
 

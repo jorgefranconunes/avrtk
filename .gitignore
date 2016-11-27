@@ -7,3 +7,5 @@
 *.pid
 target
 
+# Manually created for configuring the build.
+/Makefile.conf
