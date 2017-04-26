@@ -65,7 +65,7 @@ static EventListenerInterface adcServiceEventListenerInterface = {
 BasicAdcService *BasicAdcService_init(
         BasicAdcService *self,
         EventManager *eventManager,
-        AdcSource *adcSource) {
+        BasicAdcSource *adcSource) {
 
     self->base.vtable = &interface;
     self->eventManager = eventManager;
@@ -118,7 +118,7 @@ static AdcChannel *BasicAdcService_initChannel(
     channel->next = self->channelListHead;
     self->channelListHead = channel;
 
-    AdcSource_addSourceChannel(
+    BasicAdcSource_addSourceChannel(
             self->adcSource,
             AdcChannel_getSourceChannel(channel));
 

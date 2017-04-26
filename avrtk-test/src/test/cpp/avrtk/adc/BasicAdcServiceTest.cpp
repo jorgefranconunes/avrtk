@@ -110,16 +110,15 @@ TEST_GROUP(BasicAdcService) {
 
         EventManager *eventManager = EventManager_init(&_eventManagerData);
 
-        BasicAdcSource *basicAdcSource = BasicAdcSource_init(
+        BasicAdcSource *adcSource = BasicAdcSource_init(
                     &_basicAdcSourceData,
                     &startMyAdc,
                     &isMyAdcCompleted,
                     &getMyLatestAdcValue);
-        AdcSource *adcSource = BasicAdcSource_asAdcSource(basicAdcSource);
 
         EventManager_addSource(
                 eventManager,
-                AdcSource_asEventSource(adcSource));
+                BasicAdcSource_asEventSource(adcSource));
 
         BasicAdcService *basicAdcService = BasicAdcService_init(
                 &_adcServiceData,

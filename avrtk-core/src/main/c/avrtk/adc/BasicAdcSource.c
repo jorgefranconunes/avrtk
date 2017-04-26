@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -9,65 +9,60 @@
 #include <avrtk/adc/BasicAdcSource.h>
 
 
+static Event *BasicAdcSource_poll(EventSource *baseSelf);
 
+static void BasicAdcSource_startAdcForChannel(
+        BasicAdcSource   *self,
+        AdcSourceChannel *channel);
 
-
-static AdcSourceInterface adcSourceInterface = {
-    .addSourceChannel = &BasicAdcSource_addSourceChannel
-};
 
 static EventSourceInterface eventSourceInterface = {
     .poll = &BasicAdcSource_poll
 };
 
 
-static void BasicAdcSource_startAdcForChannel(BasicAdcSource   *self,
-                                              AdcSourceChannel *channel);
-
-
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
+ */
+BasicAdcSource *BasicAdcSource_init(
+        BasicAdcSource *self,
+        bool (*startAdc)(int),
+        bool (*isAdcCompleted)(void),
+        uint16_t (*getLatestAdcValue)(void)) {
 
-BasicAdcSource *BasicAdcSource_init(BasicAdcSource *self,
-                                    bool          (*startAdc)(int),
-                                    bool          (*isAdcCompleted)(void),
-                                    uint16_t      (*getLatestAdcValue)(void)) {
+    self->base.vtable = &eventSourceInterface;
 
-    self->base.vtable      = &adcSourceInterface;
-    self->base.base.vtable = &eventSourceInterface;
-
-    self->channelListHead   = NULL;
-    self->currentChannel    = NULL;
-    self->startAdc          = startAdc;
-    self->isAdcCompleted    = isAdcCompleted;
+    self->channelListHead = NULL;
+    self->currentChannel = NULL;
+    self->startAdc = startAdc;
+    self->isAdcCompleted = isAdcCompleted;
     self->getLatestAdcValue = getLatestAdcValue;
 
     return self;
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
+ */
+EventSource *BasicAdcSource_asEventSource(BasicAdcSource *self) {
+
+    EventSource *result = (EventSource *)self;
+
+    return result;
+}
+
+
+/**
  *
- **************************************************************************/
+ */
+void BasicAdcSource_addSourceChannel(
+        BasicAdcSource *self,
+        AdcSourceChannel *channel) {
 
-void BasicAdcSource_addSourceChannel(AdcSource        *baseSelf,
-                                     AdcSourceChannel *channel) {
+    bool isFirstTime = (self->channelListHead == NULL);
 
-    BasicAdcSource *self        = (BasicAdcSource *)baseSelf;
-    bool            isFirstTime = (self->channelListHead == NULL);
-
-    channel->next         = self->channelListHead;
+    channel->next = self->channelListHead;
     self->channelListHead = channel;
 
     if ( isFirstTime ) {
@@ -76,29 +71,23 @@ void BasicAdcSource_addSourceChannel(AdcSource        *baseSelf,
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
+ */
+static Event *BasicAdcSource_poll(EventSource *baseSelf) {
 
-Event *BasicAdcSource_poll(EventSource *baseSelf) {
-
-    BasicAdcSource   *self           = (BasicAdcSource *)baseSelf;
+    BasicAdcSource *self = (BasicAdcSource *)baseSelf;
     AdcSourceChannel *currentChannel = self->currentChannel;
-    Event            *result         = NULL;
+    Event *result = NULL;
 
     if ( currentChannel != NULL ) {
         if ( self->isAdcCompleted() ) {
-            int       channelId =
-                AdcSourceChannel_getChannelId(currentChannel);
-            uint16_t  value    =
-                self->getLatestAdcValue();
-            AdcEvent *adcEvent  =
-                AdcEvent_init(&self->eventData, channelId, value);
+            int channelId =
+                    AdcSourceChannel_getChannelId(currentChannel);
+            uint16_t value =
+                    self->getLatestAdcValue();
+            AdcEvent *adcEvent =
+                    AdcEvent_init(&self->eventData, channelId, value);
 
             result = AdcEvent_asEvent(adcEvent);
 
@@ -116,52 +105,12 @@ Event *BasicAdcSource_poll(EventSource *baseSelf) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
-AdcSource *BasicAdcSource_asAdcSource(BasicAdcSource *self) {
-
-    AdcSource *result = (AdcSource *)self;
-
-    return result;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-EventSource *BasicAdcSource_asEventSource(BasicAdcSource *self) {
-
-    AdcSource   *adcSource = (AdcSource *)self;
-    EventSource *result    = AdcSource_asEventSource(adcSource);
-
-    return result;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-static void BasicAdcSource_startAdcForChannel(BasicAdcSource   *self,
-                                              AdcSourceChannel *channel) {
+ */
+static void BasicAdcSource_startAdcForChannel(
+        BasicAdcSource   *self,
+        AdcSourceChannel *channel) {
 
     if ( channel == NULL ) {
         channel = self->channelListHead;
@@ -174,14 +123,4 @@ static void BasicAdcSource_startAdcForChannel(BasicAdcSource   *self,
         self->startAdc(channelId);
     }
 }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
 

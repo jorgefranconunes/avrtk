@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -14,42 +14,34 @@ extern "C" {
 #include <stdbool.h>
 #include <stdint.h>
 
+#include <avrtk/adc/AdcSourceChannel.h>
 #include <avrtk/adc/AdcEvent.h>
-#include <avrtk/adc/AdcSource.h>
-
-
-
+#include <avrtk/events/EventSource.h>
 
 
     typedef struct BasicAdcSourceStruct BasicAdcSource;
 
     struct BasicAdcSourceStruct {
-        AdcSource         base;
+        EventSource base;
         AdcSourceChannel *channelListHead;
         AdcSourceChannel *currentChannel;
-        AdcEvent          eventData;
-        bool            (*startAdc)(int);
-        bool            (*isAdcCompleted)(void);
-        uint16_t        (*getLatestAdcValue)(void);
+        AdcEvent eventData;
+        bool (*startAdc)(int);
+        bool (*isAdcCompleted)(void);
+        uint16_t (*getLatestAdcValue)(void);
     };
 
-    BasicAdcSource *
-    BasicAdcSource_init(BasicAdcSource *self,
-                        bool          (*startAdc)(int),
-                        bool          (*isAdcCompleted)(void),
-                        uint16_t      (*getLatestAdcValue)(void));
+    BasicAdcSource *BasicAdcSource_init(
+            BasicAdcSource *self,
+            bool (*startAdc)(int),
+            bool (*isAdcCompleted)(void),
+            uint16_t (*getLatestAdcValue)(void));
 
-    void BasicAdcSource_addSourceChannel(AdcSource        *self,
-                                         AdcSourceChannel *channel);
-
-    Event *BasicAdcSource_poll(EventSource *self);
-
-    AdcSource *BasicAdcSource_asAdcSource(BasicAdcSource *self);
+    void BasicAdcSource_addSourceChannel(
+            BasicAdcSource *self,
+            AdcSourceChannel *channel);
 
     EventSource *BasicAdcSource_asEventSource(BasicAdcSource *self);
-
-
-
 
 
 #ifdef __cplusplus

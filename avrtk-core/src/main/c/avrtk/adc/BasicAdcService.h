@@ -13,7 +13,7 @@ extern "C" {
 
 #include <avrtk/adc/AdcChannel.h>
 #include <avrtk/adc/AdcService.h>
-#include <avrtk/adc/AdcSource.h>
+#include <avrtk/adc/BasicAdcSource.h>
 #include <avrtk/events/EventListener.h>
 #include <avrtk/events/EventManager.h>
 
@@ -31,7 +31,7 @@ extern "C" {
     struct BasicAdcServiceStruct {
         AdcService base;
         EventManager *eventManager;
-        AdcSource *adcSource;
+        BasicAdcSource *adcSource;
         AdcServiceAdcListener adcListener;
         AdcChannel *channelListHead;
     };
@@ -39,7 +39,7 @@ extern "C" {
     BasicAdcService *BasicAdcService_init(
             BasicAdcService *self,
             EventManager *eventManager,
-            AdcSource *adcSource);
+            BasicAdcSource *adcSource);
 
     AdcService *BasicAdcService_asAdcService(BasicAdcService *self);
 

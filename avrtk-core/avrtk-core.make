@@ -14,7 +14,6 @@ AVRTK_CORE_C_SOURCES += \
 	avrtk/adc/AdcListener.c \
 	avrtk/adc/AdcSample.c \
 	avrtk/adc/AdcService.c \
-	avrtk/adc/AdcSource.c \
 	avrtk/adc/AdcSourceChannel.c \
 	avrtk/adc/BasicAdcService.c \
 	avrtk/adc/BasicAdcSource.c \

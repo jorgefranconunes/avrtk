@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -8,9 +8,6 @@
 
 #include <avrtk/adc/AdcEventType.h>
 #include <avrtk/adc/BasicAdcSource.h>
-
-
-
 
 
 const int CHANNEL1_ID = 4;
@@ -29,17 +26,9 @@ static bool     _isAdcCompleted = false;
 static uint16_t _adcValue       = 0;
 
 
-
-
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 static bool startMyAdc(int channel) {
 
     CHECK ( !_isAdcStarted || _isAdcCompleted);
@@ -52,15 +41,9 @@ static bool startMyAdc(int channel) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 static bool isMyAdcCompleted() {
 
     CHECK ( _isAdcStarted || _isAdcCompleted);
@@ -69,15 +52,9 @@ static bool isMyAdcCompleted() {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 static uint16_t getMyLatestAdcValue(void) {
 
     CHECK ( _isAdcCompleted );
@@ -86,15 +63,9 @@ static uint16_t getMyLatestAdcValue(void) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 static void resetMyAdc() {
 
     _isAdcStarted   = false;
@@ -103,15 +74,9 @@ static void resetMyAdc() {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 static void setMyAdcValue(uint16_t adcValue) {
 
     _isAdcStarted   = false;
@@ -120,51 +85,44 @@ static void setMyAdcValue(uint16_t adcValue) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 TEST_GROUP(BasicAdcSource) {
 
 
-    BasicAdcSource  _basicAdcSourceData;
-    BasicAdcSource *_basicAdcSource;
-    AdcSource      *_adcSource;
+    BasicAdcSource  _adcSourceData;
+    BasicAdcSource *_adcSource;
     EventSource    *_eventSource;
 
 
+    /**
+     *
+     */
     void setup() {
 
         resetMyAdc();
 
-        _basicAdcSource =
-            BasicAdcSource_init(&_basicAdcSourceData,
-                                &startMyAdc,
-                                &isMyAdcCompleted,
-                                &getMyLatestAdcValue);
-        _adcSource   = BasicAdcSource_asAdcSource(_basicAdcSource);
-        _eventSource = AdcSource_asEventSource(_adcSource);
+        _adcSource = BasicAdcSource_init(
+                &_adcSourceData,
+                &startMyAdc,
+                &isMyAdcCompleted,
+                &getMyLatestAdcValue);
+        _eventSource = BasicAdcSource_asEventSource(_adcSource);
     }
 
 
+    /**
+     *
+     */
     void teardown() {
+        // Nothing to do.
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     void assertHasAdcEvent() {
 
         EventType   *adcEventType = AdcEventType_get();
@@ -175,20 +133,15 @@ TEST_GROUP(BasicAdcSource) {
     }
 
 
+    /**
+     *
+     */
+    void assertHasAdcEventWithSample(
+            int channelId,
+            uint16_t value) {
 
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    void assertHasAdcEventWithSample(int      channelId,
-                                     uint16_t value) {
-
-        EventType   *adcEventType = AdcEventType_get();
-        Event       *event        = EventSource_poll(_eventSource);
+        EventType *adcEventType = AdcEventType_get();
+        Event *event = EventSource_poll(_eventSource);
 
         CHECK( event != NULL);
         POINTERS_EQUAL(adcEventType, Event_getEventType(event));
@@ -201,15 +154,9 @@ TEST_GROUP(BasicAdcSource) {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     void assertHasNoEvent() {
 
         POINTERS_EQUAL(NULL, EventSource_poll(_eventSource));
@@ -219,56 +166,56 @@ TEST_GROUP(BasicAdcSource) {
 };
 
 
-
-
-
+/**
+ *
+ */
 TEST(BasicAdcSource, noEventAtStart) {
 
     assertHasNoEvent();
 }
 
 
-
-
-
+/**
+ *
+ */
 TEST(BasicAdcSource, noEventWithOneChannel) {
 
     AdcSourceChannel  sourceChannelData;
     AdcSourceChannel *sourceChannel =
         AdcSourceChannel_init(&sourceChannelData, CHANNEL1_ID);
 
-    AdcSource_addSourceChannel(_adcSource, sourceChannel);
+    BasicAdcSource_addSourceChannel(_adcSource, sourceChannel);
 
     assertHasNoEvent();
 }
 
 
-
-
-
+/**
+ *
+ */
 TEST(BasicAdcSource, noEventWithOneChannelTwice) {
 
     AdcSourceChannel  sourceChannelData;
     AdcSourceChannel *sourceChannel =
         AdcSourceChannel_init(&sourceChannelData, CHANNEL1_ID);
 
-    AdcSource_addSourceChannel(_adcSource, sourceChannel);
+    BasicAdcSource_addSourceChannel(_adcSource, sourceChannel);
 
     assertHasNoEvent();
     assertHasNoEvent();
 }
 
 
-
-
-
+/**
+ *
+ */
 TEST(BasicAdcSource, oneEventOneChannel) {
 
     AdcSourceChannel  sourceChannelData;
     AdcSourceChannel *sourceChannel =
         AdcSourceChannel_init(&sourceChannelData, CHANNEL1_ID);
 
-    AdcSource_addSourceChannel(_adcSource, sourceChannel);
+    BasicAdcSource_addSourceChannel(_adcSource, sourceChannel);
     assertHasNoEvent();
 
     setMyAdcValue(234);
@@ -278,16 +225,16 @@ TEST(BasicAdcSource, oneEventOneChannel) {
 }
 
 
-
-
-
+/**
+ *
+ */
 TEST(BasicAdcSource, twoEventsOneChannel) {
 
     AdcSourceChannel  sourceChannelData;
     AdcSourceChannel *sourceChannel =
         AdcSourceChannel_init(&sourceChannelData, CHANNEL1_ID);
 
-    AdcSource_addSourceChannel(_adcSource, sourceChannel);
+    BasicAdcSource_addSourceChannel(_adcSource, sourceChannel);
     assertHasNoEvent();
 
     setMyAdcValue(234);
@@ -302,9 +249,9 @@ TEST(BasicAdcSource, twoEventsOneChannel) {
 }
 
 
-
-
-
+/**
+ *
+ */
 TEST(BasicAdcSource, oneEventTwoChannels) {
 
     AdcSourceChannel  sourceChannelData1;
@@ -314,8 +261,8 @@ TEST(BasicAdcSource, oneEventTwoChannels) {
     AdcSourceChannel *sourceChannel2 =
         AdcSourceChannel_init(&sourceChannelData2, CHANNEL2_ID);
 
-    AdcSource_addSourceChannel(_adcSource, sourceChannel1);
-    AdcSource_addSourceChannel(_adcSource, sourceChannel2);
+    BasicAdcSource_addSourceChannel(_adcSource, sourceChannel1);
+    BasicAdcSource_addSourceChannel(_adcSource, sourceChannel2);
     assertHasNoEvent();
 
     setMyAdcValue(234);
@@ -325,9 +272,9 @@ TEST(BasicAdcSource, oneEventTwoChannels) {
 }
 
 
-
-
-
+/**
+ *
+ */
 TEST(BasicAdcSource, manyEventsTwoChannels) {
 
     AdcSourceChannel  sourceChannelData1;
@@ -337,8 +284,8 @@ TEST(BasicAdcSource, manyEventsTwoChannels) {
     AdcSourceChannel *sourceChannel2 =
         AdcSourceChannel_init(&sourceChannelData2, CHANNEL2_ID);
 
-    AdcSource_addSourceChannel(_adcSource, sourceChannel1);
-    AdcSource_addSourceChannel(_adcSource, sourceChannel2);
+    BasicAdcSource_addSourceChannel(_adcSource, sourceChannel1);
+    BasicAdcSource_addSourceChannel(_adcSource, sourceChannel2);
     assertHasNoEvent();
 
     setMyAdcValue(234);
@@ -361,14 +308,4 @@ TEST(BasicAdcSource, manyEventsTwoChannels) {
     CHECK( _isAdcStarted );
     assertHasNoEvent();
 }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
 

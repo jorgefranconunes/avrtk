@@ -28,18 +28,19 @@ void SysAdcService_init(
         bool (*isAdcCompleted)(void),
         uint16_t (*getLatestAdcValue)(void)) {
 
-    EventManager   *eventManager = SysEventManager_get();
-    BasicAdcSource *basicAdcSource = BasicAdcSource_init(
+    EventManager *eventManager = SysEventManager_get();
+    BasicAdcSource *adcSource = BasicAdcSource_init(
             &_adcSourceData,
             startAdc,
             isAdcCompleted,
             getLatestAdcValue);
-    AdcSource *adcSource = BasicAdcSource_asAdcSource(basicAdcSource);
     BasicAdcService *basicAdcService   =
         BasicAdcService_init(&_basicAdcServiceData, eventManager, adcSource);
     AdcService *adcService = BasicAdcService_asAdcService(basicAdcService);
 
-    EventManager_addSource(eventManager, AdcSource_asEventSource(adcSource));
+    EventManager_addSource(
+            eventManager,
+            BasicAdcSource_asEventSource(adcSource));
     AdcService_start(adcService);
 
     _adcService = adcService;

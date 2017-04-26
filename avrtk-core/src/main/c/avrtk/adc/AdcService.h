@@ -12,7 +12,6 @@ extern "C" {
 #endif
 
 #include <avrtk/adc/AdcChannel.h>
-#include <avrtk/adc/AdcSource.h>
 #include <avrtk/events/EventListener.h>
 #include <avrtk/events/EventManager.h>
 
