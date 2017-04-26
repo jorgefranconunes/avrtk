@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -8,43 +8,36 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#include <avrtk/adc/BasicAdcService.h>
 #include <avrtk/adc/BasicAdcSource.h>
-#include <avrtk/adc/AdcService.h>
 #include <avrtk/sys/SysAdcService.h>
 #include <avrtk/sys/SysEventManager.h>
 
 
-
-
-
-static bool            _isInited = true;
+static bool _isInited = true;
 static BasicAdcSource _adcSourceData;
-static AdcService      _adcServiceData;
-static AdcService     *_adcService = NULL;
+static BasicAdcService _basicAdcServiceData;
+static AdcService *_adcService = NULL;
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
+ */
+void SysAdcService_init(
+        bool (*startAdc)(int),
+        bool (*isAdcCompleted)(void),
+        uint16_t (*getLatestAdcValue)(void)) {
 
-void SysAdcService_init(bool     (*startAdc)(int),
-                        bool     (*isAdcCompleted)(void),
-                        uint16_t (*getLatestAdcValue)(void)) {
-
-    BasicAdcSource *basicAdcSource =
-        BasicAdcSource_init(&_adcSourceData,
-                            startAdc,
-                            isAdcCompleted,
-                            getLatestAdcValue);
-    AdcSource      *adcSource    = BasicAdcSource_asAdcSource(basicAdcSource);
     EventManager   *eventManager = SysEventManager_get();
-    AdcService     *adcService   =
-        AdcService_init(&_adcServiceData, eventManager, adcSource);
+    BasicAdcSource *basicAdcSource = BasicAdcSource_init(
+            &_adcSourceData,
+            startAdc,
+            isAdcCompleted,
+            getLatestAdcValue);
+    AdcSource *adcSource = BasicAdcSource_asAdcSource(basicAdcSource);
+    BasicAdcService *basicAdcService   =
+        BasicAdcService_init(&_basicAdcServiceData, eventManager, adcSource);
+    AdcService *adcService = BasicAdcService_asAdcService(basicAdcService);
 
     EventManager_addSource(eventManager, AdcSource_asEventSource(adcSource));
     AdcService_start(adcService);
@@ -54,15 +47,9 @@ void SysAdcService_init(bool     (*startAdc)(int),
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 AdcService *SysAdcService_get() {
 
     assert( _isInited == false );
@@ -71,11 +58,7 @@ AdcService *SysAdcService_get() {
 }
 
 
-
-
-
-/**************************************************************************
- *
+/**
  * Restores the state as it was prior to calling the
  * <code>SysAdcService_init(...)</code> function.
  *
@@ -85,22 +68,10 @@ AdcService *SysAdcService_get() {
  *
  * <p>This function would not usually be called in a production
  * application. But it is usefull in test environment.</p>
- *
- **************************************************************************/
-
+ */
 void SysAdcService_reset() {
 
     _adcService = NULL;
     _isInited   = true;
 }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
 

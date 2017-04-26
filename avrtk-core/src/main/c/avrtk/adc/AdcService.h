@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -17,36 +17,29 @@ extern "C" {
 #include <avrtk/events/EventManager.h>
 
 
-
-
     typedef struct AdcServiceStruct AdcService;
 
 
-    typedef struct AdcServiceAdcListenerStruct AdcServiceAdcListener;
-    struct AdcServiceAdcListenerStruct {
-        EventListener base;
-        AdcService   *adcService;
+    typedef struct AdcServiceInterfaceStruct AdcServiceInterface;
+    struct AdcServiceInterfaceStruct {
+        void (*start)(AdcService *self);
+        AdcChannel *(*initChannel)(
+                AdcService *self,
+                AdcChannel *channel,
+                int channelId);
     };
 
 
     struct AdcServiceStruct {
-        EventManager         *eventManager;
-        AdcSource            *adcSource;
-        AdcServiceAdcListener adcListener;
-        AdcChannel           *channelListHead;
+        AdcServiceInterface *vtable;
     };
-
-    AdcService *AdcService_init(AdcService   *self,
-                                EventManager *eventManager,
-                                AdcSource    *adcSource);
 
     void AdcService_start(AdcService *self);
 
-    AdcChannel *AdcService_initChannel(AdcService *self,
-                                       AdcChannel *channel,
-                                       int         channelId);
-
-
+    AdcChannel *AdcService_initChannel(
+            AdcService *self,
+            AdcChannel *channel,
+            int channelId);
 
 
 #ifdef __cplusplus

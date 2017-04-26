@@ -1,7 +1,7 @@
 # -*- mode: makefile-gmake; -*-
 ###########################################################################
 #
-# Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+# Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
 #
 ###########################################################################
 
@@ -16,6 +16,7 @@ AVRTK_CORE_C_SOURCES += \
 	avrtk/adc/AdcService.c \
 	avrtk/adc/AdcSource.c \
 	avrtk/adc/AdcSourceChannel.c \
+	avrtk/adc/BasicAdcService.c \
 	avrtk/adc/BasicAdcSource.c \
 	avrtk/adc/CallbackAdcListener.c
 

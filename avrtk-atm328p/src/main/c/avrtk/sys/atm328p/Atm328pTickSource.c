@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -21,7 +21,7 @@ static long getTickCount(void);
 static void setupAtmega328pTimer(void);
 
 static bool _isInited = false;
-static long volatile _tickCount = 0;
+static volatile long _tickCount = 0;
 
 
 

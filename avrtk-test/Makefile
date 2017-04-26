@@ -54,7 +54,7 @@ B_TEST_CXX_SOURCES = \
 	AllTests.cpp \
 	avrtk/adc/AdcChannelTest.cpp \
 	avrtk/adc/AdcEventTest.cpp \
-	avrtk/adc/AdcServiceTest.cpp \
+	avrtk/adc/BasicAdcServiceTest.cpp \
 	avrtk/adc/BasicAdcSourceTest.cpp \
 	avrtk/adc/CallbackAdcListenerTest.cpp \
 	avrtk/events/EventManagerTest.cpp \

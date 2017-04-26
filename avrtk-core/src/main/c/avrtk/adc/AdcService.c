@@ -1,200 +1,53 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
-#include <stddef.h>
-
-#include <avrtk/adc/AdcEvent.h>
-#include <avrtk/adc/AdcEventType.h>
 #include <avrtk/adc/AdcService.h>
 
 
-
-
-
-static EventListener *
-AdcServiceAdcListener_asEventListener(AdcServiceAdcListener *self);
-
-static void
-AdcServiceAdcListener_init(AdcServiceAdcListener *self,
-                             AdcService          *adcService);
-
-static void
-AdcServiceAdcListener_notify(EventListener *self,
-                               Event         *Event);
-
-static EventListenerInterface adcServiceEventListenerInterface = {
-    .notify = AdcServiceAdcListener_notify
-};
-
-
-
-
-
-static void AdcService_adcEvent(AdcService *self,
-                                AdcEvent   *event);
-
-
-
-
-
-/**************************************************************************
+/**//**
+ * @interface AdcService avrtk/adc/AdcService.h <avrtk/adc/AdcService.h>
+ * @ingroup avrtk_adc
  *
- * 
+ * @brief Used for receiving samples from the A/D converter ports.
+ */
+
+
+/**//**
+ * Starts the AdcService.
  *
- **************************************************************************/
-
-AdcService *AdcService_init(AdcService  *self,
-                            EventManager *eventManager,
-                            AdcSource    *adcSource) {
-
-    self->eventManager    = eventManager;
-    self->adcSource       = adcSource;
-    self->channelListHead = NULL;
-    AdcServiceAdcListener_init(&self->adcListener, self);
-
-    return self;
-}
-
-
-
-
-
-
-/**************************************************************************
+ * @public @memberof AdcService
+ * @pure
  *
- * 
+ * After this method returns the AdcService is ready to create channels.
  *
- **************************************************************************/
-
+ * @param self Reference to the AdcService object being used.
+ */
 void AdcService_start(AdcService  *self) {
 
-    EventListener *adcListener =
-        AdcServiceAdcListener_asEventListener(&self->adcListener);
-
-    EventManager_addListener(self->eventManager,
-                             AdcEventType_get(),
-                             adcListener);
+    self->vtable->start(self);
 }
 
 
-
-
-
-
-/**************************************************************************
+/**//**
+ * Initializes a channel to receive ADC samples.
  *
- * 
+ * @public @memberof AdcService
  *
- **************************************************************************/
+ * @param self Reference to the AdcService object being used.
+ *
+ * @param channel Reference to the AdcChannel object to be
+ * initialized.
+ *
+ * @param channelId The ID of the ADC channel for which sampels will
+ * be obtained. This corresponds directly to one specific ADC port.
+ */
+AdcChannel *AdcService_initChannel(
+        AdcService *self,
+        AdcChannel *channel,
+        int channelId) {
 
-AdcChannel *AdcService_initChannel(AdcService  *self,
-                                   AdcChannel  *channel,
-                                   int          channelId) {
-
-    AdcChannel_init(channel, channelId);
-
-    channel->next         = self->channelListHead;
-    self->channelListHead = channel;
-
-    AdcSource_addSourceChannel(self->adcSource,
-                               AdcChannel_getSourceChannel(channel));
-
-    return channel;
+    return self->vtable->initChannel(self, channel, channelId);
 }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-static void AdcService_adcEvent(AdcService *self,
-                                AdcEvent   *event) {
-
-    AdcSample *sample          = AdcEvent_getSample(event);
-    int        sampleChannelId = AdcSample_getChannelId(sample);
-
-    for ( AdcChannel *channel = self->channelListHead;
-          channel != NULL;
-          channel = channel->next ) {
-
-        int channelId = AdcChannel_getChannelId(channel);
-
-        if ( channelId == sampleChannelId ) {
-            AdcChannel_notify(channel, sample);
-        }
-    }
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-static void
-AdcServiceAdcListener_init(AdcServiceAdcListener *self,
-                           AdcService            *adcService) {
-
-    self->base.vtable = &adcServiceEventListenerInterface;
-    self->adcService  = adcService;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-EventListener *
-AdcServiceAdcListener_asEventListener(AdcServiceAdcListener *self) {
-
-    EventListener *result = (EventListener *)self;
-
-    return result;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-static void AdcServiceAdcListener_notify(EventListener *baseSelf,
-                                         Event         *event) {
-
-    AdcServiceAdcListener *self = (AdcServiceAdcListener *)baseSelf;
-    AdcEvent              *adcEvent = AdcEvent_fromEvent(event);
-
-    AdcService_adcEvent(self->adcService, adcEvent);
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-

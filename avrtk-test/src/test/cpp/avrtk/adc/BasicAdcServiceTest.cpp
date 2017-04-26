@@ -1,17 +1,14 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
 #include <CppUTest/TestHarness.h>
 
-#include <avrtk/adc/AdcService.h>
+#include <avrtk/adc/BasicAdcService.h>
 #include <avrtk/adc/BasicAdcSource.h>
 #include <avrtk/adc/TestAdcListener.h>
-
-
-
 
 
 const int CHANNEL1_ID = 4;
@@ -32,15 +29,9 @@ static uint16_t _adcValue       = 0;
 
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 static bool startMyAdc(int channel) {
 
     CHECK ( !_isAdcStarted || _isAdcCompleted);
@@ -53,15 +44,9 @@ static bool startMyAdc(int channel) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 static bool isMyAdcCompleted() {
 
     CHECK ( _isAdcStarted || _isAdcCompleted);
@@ -70,15 +55,9 @@ static bool isMyAdcCompleted() {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 static uint16_t getMyLatestAdcValue(void) {
 
     CHECK ( _isAdcCompleted );
@@ -87,15 +66,9 @@ static uint16_t getMyLatestAdcValue(void) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 static void resetMyAdc() {
 
     _isAdcStarted   = false;
@@ -104,15 +77,9 @@ static void resetMyAdc() {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 static void setMyAdcValue(uint16_t adcValue) {
 
     _isAdcStarted   = false;
@@ -121,44 +88,44 @@ static void setMyAdcValue(uint16_t adcValue) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
-TEST_GROUP(AdcService) {
+ */
+TEST_GROUP(BasicAdcService) {
 
 
-    EventManager   _eventManagerData;
-    EventManager  *_eventManager;
+    EventManager _eventManagerData;
+    EventManager *_eventManager;
     BasicAdcSource _basicAdcSourceData;
-    AdcService     _adcServiceData;
-    AdcService    *_adcService;
+    BasicAdcService _adcServiceData;
+    AdcService *_adcService;
 
 
+    /**
+     *
+     */
     void setup() {
 
         resetMyAdc();
 
         EventManager *eventManager = EventManager_init(&_eventManagerData);
 
-        BasicAdcSource *basicAdcSource =
-            BasicAdcSource_init(&_basicAdcSourceData,
-                                &startMyAdc,
-                                &isMyAdcCompleted,
-                                &getMyLatestAdcValue);
+        BasicAdcSource *basicAdcSource = BasicAdcSource_init(
+                    &_basicAdcSourceData,
+                    &startMyAdc,
+                    &isMyAdcCompleted,
+                    &getMyLatestAdcValue);
         AdcSource *adcSource = BasicAdcSource_asAdcSource(basicAdcSource);
 
-        EventManager_addSource(eventManager,
-                               AdcSource_asEventSource(adcSource));
+        EventManager_addSource(
+                eventManager,
+                AdcSource_asEventSource(adcSource));
 
-        AdcService *adcService = AdcService_init(&_adcServiceData,
-                                                 eventManager,
-                                                 adcSource);
+        BasicAdcService *basicAdcService = BasicAdcService_init(
+                &_adcServiceData,
+                eventManager,
+                adcSource);
+        AdcService *adcService = BasicAdcService_asAdcService(basicAdcService);
         AdcService_start(adcService);
 
         _eventManager = eventManager;
@@ -166,23 +133,21 @@ TEST_GROUP(AdcService) {
     }
 
 
+    /**
+     *
+     */
     void teardown() {
         // Nothing to do...
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    void checkSample(int        expectedChannelId,
-                     uint16_t   expectedValue,
-                     AdcSample *actualSample) {
+    /**
+     *
+     */
+    void checkSample(
+            int expectedChannelId,
+            uint16_t expectedValue,
+            AdcSample *actualSample) {
 
         CHECK_EQUAL( expectedChannelId, AdcSample_getChannelId(actualSample) );
         CHECK_EQUAL( expectedValue, AdcSample_getValue(actualSample) );
@@ -192,19 +157,19 @@ TEST_GROUP(AdcService) {
 };
 
 
-
-
-
-TEST(AdcService, noEvents) {
+/**
+ *
+ */
+TEST(BasicAdcService, noEvents) {
 
     EventManager_sweep(_eventManager);
 }
 
 
-
-
-
-TEST(AdcService, noEventWithOneChannel) {
+/**
+ *
+ */
+TEST(BasicAdcService, noEventWithOneChannel) {
 
     TestAdcListener  adcListenerData;
     TestAdcListener *adcListener = TestAdcListener_init(&adcListenerData);
@@ -221,10 +186,10 @@ TEST(AdcService, noEventWithOneChannel) {
 }
 
 
-
-
-
-TEST(AdcService, noEventWithOneChannelTwice) {
+/**
+ *
+ */
+TEST(BasicAdcService, noEventWithOneChannelTwice) {
 
     TestAdcListener  adcListenerData;
     TestAdcListener *adcListener = TestAdcListener_init(&adcListenerData);
@@ -244,10 +209,10 @@ TEST(AdcService, noEventWithOneChannelTwice) {
 }
 
 
-
-
-
-TEST(AdcService, oneEventOneChannel) {
+/**
+ *
+ */
+TEST(BasicAdcService, oneEventOneChannel) {
 
     TestAdcListener  adcListenerData;
     TestAdcListener *adcListener = TestAdcListener_init(&adcListenerData);
@@ -272,10 +237,10 @@ TEST(AdcService, oneEventOneChannel) {
 }
 
 
-
-
-
-TEST(AdcService, twoEventsOneChannel) {
+/**
+ *
+ */
+TEST(BasicAdcService, twoEventsOneChannel) {
 
     TestAdcListener  adcListenerData;
     TestAdcListener *adcListener = TestAdcListener_init(&adcListenerData);
@@ -301,10 +266,7 @@ TEST(AdcService, twoEventsOneChannel) {
 }
 
 
-
-
-
-// TEST(AdcService, oneEventTwoChannels) {
+// TEST(BasicAdcService, oneEventTwoChannels) {
 
 //     AdcSourceChannel  sourceChannelData1;
 //     AdcSourceChannel *sourceChannel1 =
@@ -324,10 +286,7 @@ TEST(AdcService, twoEventsOneChannel) {
 // }
 
 
-
-
-
-// TEST(AdcService, manyEventsTwoChannels) {
+// TEST(BasicAdcService, manyEventsTwoChannels) {
 
 //     AdcSourceChannel  sourceChannelData1;
 //     AdcSourceChannel *sourceChannel1 =
@@ -360,14 +319,4 @@ TEST(AdcService, twoEventsOneChannel) {
 //     CHECK( _isAdcStarted );
 //     assertHasNoEvent();
 // }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
 
