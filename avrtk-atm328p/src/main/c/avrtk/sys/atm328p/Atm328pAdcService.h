@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -12,13 +12,7 @@ extern "C" {
 #endif
 
 
-
-
-
-    void Atm328pAdcService_init(void);
-
-
-
+    void Atm328pAdcService_setup(void);
 
 
 #ifdef __cplusplus

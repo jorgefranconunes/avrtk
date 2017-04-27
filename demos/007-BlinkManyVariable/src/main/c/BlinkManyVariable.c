@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2015-2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2015-2017 Jorge Nunes, All Rights Reserved.
  *
  *
  * Blinks a set of 6 LEDs with frequency adjustable through one of the
@@ -76,7 +76,7 @@ static Task*        _blinkTask;
  */
 int main(void) {
 
-    Atm328pAdcService_init();
+    Atm328pAdcService_setup();
     Atm328pTaskService_init();
 
     /* Set the appropriate pins of PORTD for output*/

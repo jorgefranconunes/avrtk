@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014-2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  *
  * Blinks with period adjustable through ADC.
@@ -49,7 +49,7 @@ static bool         _isLedOn     = true;
 int main() {
 
     Atm328pTaskService_init();
-    Atm328pAdcService_init();
+    Atm328pAdcService_setup();
 
     /* Set pin 5 of PORTD for output*/
     DDRD |= _BV(DDD5);

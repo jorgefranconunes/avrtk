@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014-2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  *
  * Set of 6 LEDs act as a gauge whose value is the ADC sample coming
@@ -39,7 +39,7 @@ static CallbackAdcListener _callbackAdcListenerData;
  */
 int main() {
 
-    Atm328pAdcService_init();
+    Atm328pAdcService_setup();
 
     /* Set the appropriate pins of PORTD for output*/
     DDRD |= _patternMask;

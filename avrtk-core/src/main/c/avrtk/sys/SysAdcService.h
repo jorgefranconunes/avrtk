@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -14,19 +14,9 @@ extern "C" {
 #include <avrtk/adc/AdcService.h>
 
 
-
-
-
-    void SysAdcService_init(bool     (*startAdc)(int),
-                            bool     (*isAdcCompleted)(void),
-                            uint16_t (*getLatestAdcValue)(void));
+    void SysAdcService_setup(AdcService *(*serviceFetcher)(void));
 
     AdcService *SysAdcService_get(void);
-
-    void SysAdcService_reset(void);
-
-
-
 
 
 #ifdef __cplusplus

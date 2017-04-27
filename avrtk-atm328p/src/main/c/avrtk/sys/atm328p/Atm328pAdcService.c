@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014-2015 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -8,59 +8,56 @@
 
 #include <avr/interrupt.h>
 
+#include <avrtk/adc/BasicAdcServiceSingleton.h>
 #include <avrtk/sys/SysAdcService.h>
+#include <avrtk/sys/SysEventManager.h>
 
 
-
-
-
-static void     setupAdm328Adc(void);
-static bool     startAdc(int);
-static bool     isAdcCompleted(void);
+static AdcService *Atm328pAdcService_get(void);
+static void setupAtm328Adc(void);
+static bool startAdc(int);
+static bool isAdcCompleted(void);
 static uint16_t getLatestAdcValue(void);
-static void     startAtm328AdcConversion(int channel);
+static void startAtm328AdcConversion(int channel);
 
-static bool _isInited = false;
-
-// These are changed within the ADC_vect interrupt handler.
-static volatile bool     _isAdcCompleted = false;
-static volatile uint16_t _adcValue       = 0;
+// These are modified only within the ADC_vect interrupt handler.
+static volatile bool _isAdcCompleted = false;
+static volatile uint16_t _adcValue = 0;
 
 
-
-
-
-/**************************************************************************
- *
- * Initializes the system ADC service. Only after calling this
- * function you can safely call <code>SysAdcService_get()</code>
+/**
+ * Initializes the system ADC service.
  *
  * It is ok to call this function more than once. Only the first call
  * will have an effect.
- *
- **************************************************************************/
+ */
+void Atm328pAdcService_setup() {
 
-void Atm328pAdcService_init() {
-
-    if ( !_isInited ) {
-        setupAdm328Adc();
-        SysAdcService_init(&startAdc, &isAdcCompleted, &getLatestAdcValue);
-
-        _isInited = true;
-    }
+    SysAdcService_setup(&Atm328pAdcService_get);
 }
 
 
+/**
+ * This function is supposed to be called only once.
+ */
+static AdcService *Atm328pAdcService_get() {
+
+    setupAtm328Adc();
+
+    AdcService *adcService = BasicAdcServiceSingleton_setup(
+            SysEventManager_get(),
+            &startAdc,
+            &isAdcCompleted,
+            &getLatestAdcValue);
+
+    return adcService;
+}
 
 
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
-static void setupAdm328Adc() {
+ */
+static void setupAtm328Adc() {
 
     cli();
 
@@ -90,21 +87,14 @@ static void setupAdm328Adc() {
 }
 
 
-
-
-
-/**************************************************************************
- *
+/**
  * Initiates one conversion on the given channel.
- *
- **************************************************************************/
-
+ */
 static bool startAdc(int channelId) {
 
     bool isOk = true;
 
     if ( (channelId>=0) && (channelId<=8) ) {
-        _isAdcCompleted = false;
         startAtm328AdcConversion(channelId);
     } else {
         isOk = false;
@@ -114,15 +104,9 @@ static bool startAdc(int channelId) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 static void startAtm328AdcConversion(int channel) {
 
     _isAdcCompleted = false;
@@ -140,15 +124,9 @@ static void startAtm328AdcConversion(int channel) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 static bool isAdcCompleted() {
 
     bool result;
@@ -172,15 +150,9 @@ static bool isAdcCompleted() {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 static uint16_t getLatestAdcValue() {
 
     uint16_t result;
@@ -204,15 +176,9 @@ static uint16_t getLatestAdcValue() {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 ISR (ADC_vect) {
 
     uint16_t lowByte  = ADCL;
@@ -222,14 +188,4 @@ ISR (ADC_vect) {
     _adcValue       = atmValue << 6;
     _isAdcCompleted = true;
 }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
 

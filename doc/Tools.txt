@@ -1,0 +1,59 @@
+= Development tools
+
+
+
+
+
+== objdump
+
+List sections and respective sizes:
+
+----
+avr-objdump -h demos/007-BlinkManyVariable/target/007-BlinkManyVariable-0.0.2
+
+demos/007-BlinkManyVariable/target/007-BlinkManyVariable-0.0.2:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000034  00800100  00000e4e  00000ee2  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         00000e4e  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000097  00800134  00800134  00000f16  2**0
+                  ALLOC
+  3 .stab         000099a8  00000000  00000000  00000f18  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      000052cb  00000000  00000000  0000a8c0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .comment      00000011  00000000  00000000  0000fb8b  2**0
+                  CONTENTS, READONLY
+----
+
+Purpose of sections( more details at
+http://www.nongnu.org/avr-libc/user-manual/mem_sections.html):
+
+* .data -- Initialized data. These correspond to static variables that
+  were initialized at declaration time.
+
+* .text -- Executable code.
+
+* .bss -- Uninitialized data. These correspond to static variables
+  that were not initialized at declaration time.
+
+
+Interrupt table is at the very beginning of the .text section.
+
+Flash memory space used by the program: size of .data + size of .text
+
+
+
+
+
+Disassemble:
+
+----
+avr-objdump -d demos/007-BlinkManyVariable/target/007-BlinkManyVariable-0.0.2
+----
+
+
+Disassemble with
