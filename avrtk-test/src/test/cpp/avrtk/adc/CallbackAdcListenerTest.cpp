@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -9,14 +9,14 @@
 #include <avrtk/adc/CallbackAdcListener.h>
 
 
-
-
-
 static int        _myCounter = 0;
 static AdcSample  _mySampleData;
 static AdcSample *_mySample = NULL;
 
 
+/**
+ *
+ */
 static void testCallback(AdcSample *sample) {
 
     ++_myCounter;
@@ -24,8 +24,12 @@ static void testCallback(AdcSample *sample) {
 }
 
 
-static void checkSamples(AdcSample *expected,
-                         AdcSample *actual) {
+/**
+ *
+ */
+static void checkSamples(
+        AdcSample *expected,
+        AdcSample *actual) {
 
     if ( NULL == expected ) {
         POINTERS_EQUAL(NULL, actual);
@@ -39,18 +43,15 @@ static void checkSamples(AdcSample *expected,
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 TEST_GROUP(CallbackAdcListener) {
 
 
+    /**
+     *
+     */
     void setup() {
 
         _myCounter= 0;
@@ -58,15 +59,18 @@ TEST_GROUP(CallbackAdcListener) {
     }
 
 
+    /**
+     *
+     */
     void teardown() {
     }
 
 };
 
 
-
-
-
+/**
+ *
+ */
 TEST(CallbackAdcListener, doInit) {
 
     CallbackAdcListener listenerData;
@@ -78,9 +82,9 @@ TEST(CallbackAdcListener, doInit) {
 }
 
 
-
-
-
+/**
+ *
+ */
 TEST(CallbackAdcListener, asAdcListener) {
 
     CallbackAdcListener  callbackAdcListenerData;
@@ -97,9 +101,9 @@ TEST(CallbackAdcListener, asAdcListener) {
 }
 
 
-
-
-
+/**
+ *
+ */
 TEST(CallbackAdcListener, notifyOnce) {
 
     CallbackAdcListener  callbackAdcListenerData;
@@ -115,15 +119,16 @@ TEST(CallbackAdcListener, notifyOnce) {
     AdcSample  demoSampleData;
     AdcSample *demoSample = AdcSample_init(&demoSampleData, 23, 24);
 
-    AdcListener_notify(adcListener, demoSample);
+    AdcListener_onSample(adcListener, demoSample);
     CHECK_EQUAL(1, _myCounter);
     checkSamples(demoSample, _mySample);
 }
 
 
 
-
-
+/**
+ *
+ */
 TEST(CallbackAdcListener, notifyTwice) {
 
     CallbackAdcListener  callbackAdcListenerData;
@@ -139,24 +144,14 @@ TEST(CallbackAdcListener, notifyTwice) {
     AdcSample  demoSampleData;
     AdcSample *demoSample = AdcSample_init(&demoSampleData, 23, 24);
 
-    AdcListener_notify(adcListener, demoSample);
+    AdcListener_onSample(adcListener, demoSample);
     CHECK_EQUAL(1, _myCounter);
     checkSamples(demoSample, _mySample);
 
 
     demoSample = AdcSample_init(&demoSampleData, 45, 46);
-    AdcListener_notify(adcListener, demoSample);
+    AdcListener_onSample(adcListener, demoSample);
     CHECK_EQUAL(2, _myCounter);
     checkSamples(demoSample, _mySample);
 }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
 

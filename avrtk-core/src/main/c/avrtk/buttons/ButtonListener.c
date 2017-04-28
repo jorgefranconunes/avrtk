@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014-2015 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  *//**
  *
@@ -13,25 +13,16 @@
 #include <avrtk/buttons/ButtonListener.h>
 
 
-
-
-
-/**********************************************************************//**
- *
+/**
  * @interface ButtonListener avrtk/buttons/ButtonListener.h <avrtk/buttons/ButtonListener.h>
  * @ingroup avrtk_buttons
  *
  * @brief Defines the API for objects interested in being notified of
  * events related with one specific button.
- *
- **************************************************************************/
+ */
 
 
-
-
-
-/**********************************************************************//**
- *
+/**
  * Called when the button is pressed.
  *
  * @public @memberof ButtonListener
@@ -40,21 +31,16 @@
  * @param self 
  *
  * @param buttonId The ID of the button that was pressed.
- *
- **************************************************************************/
-
-void ButtonListener_onPress(ButtonListener *self,
-                            int             buttonId) {
+ */
+void ButtonListener_onPress(
+        ButtonListener *self,
+        int buttonId) {
 
     self->vtable->onPress(self, buttonId);
 }
 
 
-
-
-
-/**********************************************************************//**
- *
+/**
  * Called when the button is released.
  *
  * @public @memberof ButtonListener
@@ -63,22 +49,11 @@ void ButtonListener_onPress(ButtonListener *self,
  * @param self 
  *
  * @param buttonId The ID of the button that was pressed.
- *
- **************************************************************************/
-
-void ButtonListener_onRelease(ButtonListener *self,
-                              int             buttonId) {
+ */
+void ButtonListener_onRelease(
+        ButtonListener *self,
+        int buttonId) {
 
     self->vtable->onRelease(self, buttonId);
 }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
 

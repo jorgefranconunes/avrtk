@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -15,27 +15,27 @@ extern "C" {
 #include <avrtk/adc/AdcSourceChannel.h>
 
 
-
-
-
     typedef struct AdcChannelStruct AdcChannel;
 
     struct AdcChannelStruct {
         AdcSourceChannel sourceChannel;
-        AdcListener     *listenerListHead;
-        AdcChannel      *next;
+        AdcListener *listenerListHead;
+        AdcChannel *next;
     };
 
-    AdcChannel *AdcChannel_init(AdcChannel *self,
-                                int         channelId);
+    AdcChannel *AdcChannel_init(
+            AdcChannel *self,
+            int channelId);
 
     int AdcChannel_getChannelId(AdcChannel *self);
 
-    void AdcChannel_addListener(AdcChannel  *self,
-                                AdcListener *listener);
+    void AdcChannel_addListener(
+            AdcChannel  *self,
+            AdcListener *listener);
 
-    void AdcChannel_notify(AdcChannel *self,
-                           AdcSample  *sample);
+    void AdcChannel_onSample(
+            AdcChannel *self,
+            AdcSample  *sample);
 
     AdcSourceChannel *AdcChannel_getSourceChannel(AdcChannel *self);
 

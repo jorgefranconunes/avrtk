@@ -1,49 +1,38 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
 #include <avrtk/adc/CallbackAdcListener.h>
 
 
-
-
+static void CallbackAdcListener_onSample(
+        AdcListener *baseSelf,
+        AdcSample   *sample);
 
 static AdcListenerInterface interface = {
-    .notify = &CallbackAdcListener_notify
+    .onSample = &CallbackAdcListener_onSample
 };
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
-CallbackAdcListener *
-CallbackAdcListener_init(CallbackAdcListener *self,
-                         void               (*callback)(AdcSample *sample)) {
+ */
+CallbackAdcListener *CallbackAdcListener_init(
+        CallbackAdcListener *self,
+        void (*callback)(AdcSample *sample)) {
 
     self->base.vtable = &interface;
-    self->callback    = callback;
+    self->callback = callback;
 
     return self;
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 AdcListener *CallbackAdcListener_asAdcListener(CallbackAdcListener *self) {
 
     AdcListener *result = (AdcListener *)self;
@@ -52,30 +41,15 @@ AdcListener *CallbackAdcListener_asAdcListener(CallbackAdcListener *self) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
-void CallbackAdcListener_notify(AdcListener *baseSelf,
-                                AdcSample   *sample) {
+ */
+static void CallbackAdcListener_onSample(
+        AdcListener *baseSelf,
+        AdcSample   *sample) {
 
     CallbackAdcListener *self = (CallbackAdcListener *)baseSelf;
 
     self->callback(sample);
 }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
 

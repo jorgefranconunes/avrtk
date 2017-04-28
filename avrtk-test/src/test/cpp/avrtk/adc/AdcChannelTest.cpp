@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -11,21 +11,12 @@
 #include <avrtk/adc/TestAdcListener.h>
 
 
-
-
-
 const int CHANNEL1_ID = 17;
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 TEST_GROUP(AdcChannel) {
 
 
@@ -33,34 +24,35 @@ TEST_GROUP(AdcChannel) {
     AdcChannel *_channel;
 
 
+    /**
+     *
+     */
     void setup() {
 
         _channel = AdcChannel_init(&_channelData, CHANNEL1_ID);
     }
 
 
+    /**
+     *
+     */
     void teardown() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    void testListeners(TestAdcListener listenerList[],
-                       int             listenerCount,
-                       int             sampleList[],
-                       int             sampleCount) {
+    /**
+     *
+     */
+    void testListeners(
+            TestAdcListener listenerList[],
+            int listenerCount,
+            int sampleList[],
+            int sampleCount) {
 
         for ( int i=0; i<listenerCount; ++i ) {
             TestAdcListener *testListener =
                 TestAdcListener_init(&listenerList[i]);
-            AdcListener     *listener =
+            AdcListener *listener =
                 TestAdcListener_asAdcListener(testListener);
             AdcChannel_addListener(_channel, listener);
         }
@@ -77,7 +69,7 @@ TEST_GROUP(AdcChannel) {
                 CHECK_EQUAL( i, TestAdcListener_getNotifyCount(testListener) );
             }
 
-            AdcChannel_notify(_channel, sample);
+            AdcChannel_onSample(_channel, sample);
 
             for ( int j=0; j<listenerCount; ++j ) {
                 TestAdcListener *testListener = &listenerList[j];
@@ -105,8 +97,9 @@ TEST_GROUP(AdcChannel) {
         }
 
         for ( int i=0; i<listenerCount; ++i ) {
-            CHECK_EQUAL( sampleCount,
-                         TestAdcListener_getNotifyCount(&listenerList[i]) );
+            CHECK_EQUAL(
+                    sampleCount,
+                    TestAdcListener_getNotifyCount(&listenerList[i]));
         }
     }
 
@@ -114,18 +107,18 @@ TEST_GROUP(AdcChannel) {
 };
 
 
-
-
-
+/**
+ *
+ */
 TEST(AdcChannel, getChannelId) {
 
     CHECK_EQUAL( CHANNEL1_ID, AdcChannel_getChannelId(_channel) );
 }
 
 
-
-
-
+/**
+ *
+ */
 TEST(AdcChannel, getSourceChannel) {
 
     AdcSourceChannel *sourceChannel = AdcChannel_getSourceChannel(_channel);
@@ -134,35 +127,35 @@ TEST(AdcChannel, getSourceChannel) {
 }
 
 
-
-
-
+/**
+ *
+ */
 TEST(AdcChannel, notifyWithNoListeners) {
 
-    AdcSample  sampleData;
+    AdcSample sampleData;
     AdcSample *sample = AdcSample_init(&sampleData, CHANNEL1_ID, 123);
 
-    AdcChannel_notify(_channel, sample);
+    AdcChannel_onSample(_channel, sample);
 
     // Nothing is supposed to happen, actually...
 }
 
 
-
-
-
+/**
+ *
+ */
 TEST(AdcChannel, notifyWithOneListener) {
 
     TestAdcListener  testListenerData;
     TestAdcListener *testListener = TestAdcListener_init(&testListenerData);
-    AdcListener     *listener     =TestAdcListener_asAdcListener(testListener);
-    AdcSample        sampleData;
-    AdcSample       *sample = AdcSample_init(&sampleData, CHANNEL1_ID, 123);
+    AdcListener *listener = TestAdcListener_asAdcListener(testListener);
+    AdcSample sampleData;
+    AdcSample *sample = AdcSample_init(&sampleData, CHANNEL1_ID, 123);
 
     AdcChannel_addListener(_channel, listener);
     CHECK_EQUAL( 0, TestAdcListener_getNotifyCount(testListener) );
 
-    AdcChannel_notify(_channel, sample);
+    AdcChannel_onSample(_channel, sample);
     CHECK_EQUAL( 1, TestAdcListener_getNotifyCount(testListener) );
 
     AdcSample *lSample = TestAdcListener_getSample(testListener);
@@ -171,9 +164,9 @@ TEST(AdcChannel, notifyWithOneListener) {
 }
 
 
-
-
-
+/**
+ *
+ */
 TEST(AdcChannel, notifyWithOneListenerAgain) {
 
     TestAdcListener listenerList[1];
@@ -186,9 +179,9 @@ TEST(AdcChannel, notifyWithOneListenerAgain) {
 }
 
 
-
-
-
+/**
+ *
+ */
 TEST(AdcChannel, notifyWithManyListeners) {
 
     TestAdcListener listenerList[7];
@@ -199,14 +192,4 @@ TEST(AdcChannel, notifyWithManyListeners) {
 
     testListeners(listenerList, listenerCount, sampleList, sampleCount);
 }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
 

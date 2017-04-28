@@ -26,7 +26,7 @@
  */
 
 
-static void BasicAdcService_adcEvent(
+static void BasicAdcService_onSample(
         BasicAdcService *self,
         AdcEvent *event);
 
@@ -129,7 +129,7 @@ static AdcChannel *BasicAdcService_initChannel(
 /**
  *
  */
-static void BasicAdcService_adcEvent(
+static void BasicAdcService_onSample(
         BasicAdcService *self,
         AdcEvent *event) {
 
@@ -143,7 +143,7 @@ static void BasicAdcService_adcEvent(
         int channelId = AdcChannel_getChannelId(channel);
 
         if ( channelId == sampleChannelId ) {
-            AdcChannel_notify(channel, sample);
+            AdcChannel_onSample(channel, sample);
         }
     }
 }
@@ -183,5 +183,5 @@ static void AdcServiceAdcListener_notify(
     AdcServiceAdcListener *self = (AdcServiceAdcListener *)baseSelf;
     AdcEvent *adcEvent = AdcEvent_fromEvent(event);
 
-    BasicAdcService_adcEvent(self->adcService, adcEvent);
+    BasicAdcService_onSample(self->adcService, adcEvent);
 }

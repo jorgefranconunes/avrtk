@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -12,32 +12,30 @@ extern "C" {
 #endif
 
 
-
-
-
     typedef struct ButtonListenerStruct ButtonListener;
 
     typedef struct ButtonListenerInterfaceStruct ButtonListenerInterface;
     struct ButtonListenerInterfaceStruct {
-        void (*onPress)(ButtonListener *self,
-                        int             buttonId);
-        void (*onRelease)(ButtonListener *self,
-                          int             buttonId);
+        void (*onPress)(
+                ButtonListener *self,
+                int buttonId);
+        void (*onRelease)(
+                ButtonListener *self,
+                int buttonId);
     };
 
     struct ButtonListenerStruct {
         ButtonListenerInterface *vtable;
-        ButtonListener          *next;
+        ButtonListener *next;
     };
 
-    void ButtonListener_onPress(ButtonListener *self,
-                                int             buttonId);
+    void ButtonListener_onPress(
+            ButtonListener *self,
+            int buttonId);
 
-    void ButtonListener_onRelease(ButtonListener *self,
-                                  int             buttonId);
-
-
-
+    void ButtonListener_onRelease(
+            ButtonListener *self,
+            int buttonId);
 
 
 #ifdef __cplusplus

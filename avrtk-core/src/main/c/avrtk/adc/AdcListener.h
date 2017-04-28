@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -14,14 +14,11 @@ extern "C" {
 #include <avrtk/adc/AdcSample.h>
 
 
-
-
-
     typedef struct AdcListenerStruct AdcListener;
 
     typedef struct AdcListenerInterfaceStruct AdcListenerInterface;
     struct AdcListenerInterfaceStruct {
-        void (*notify)(AdcListener *, AdcSample *);
+        void (*onSample)(AdcListener *, AdcSample *);
     };
 
     struct AdcListenerStruct {
@@ -29,11 +26,9 @@ extern "C" {
         AdcListener          *next;
     };
 
-    void AdcListener_notify(AdcListener *self,
-                            AdcSample   *sample);
-
-
-
+    void AdcListener_onSample(
+            AdcListener *self,
+            AdcSample *sample);
 
 
 #ifdef __cplusplus

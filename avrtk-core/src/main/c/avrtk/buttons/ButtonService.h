@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -11,31 +11,27 @@
 extern "C" {
 #endif
 
-#include <avr/buttons/ButtonChannel.h>
-
-
-
+#include <avrtk/buttons/ButtonChannel.h>
 
 
     typedef struct ButtonServiceStruct ButtonService;
 
     typedef struct ButtonServiceInterfaceStruct ButtonServiceInterface;
     struct ButtonServiceInterfaceStruct {
-        ButtonChannel (*newButtonChannel)(ButtonService *self,
-                                          ButtonChannel *buttonChannel,
-                                          int            buttonId);
+        ButtonChannel *(*initButtonChannel)(
+                ButtonService *self,
+                ButtonChannel *buttonChannel,
+                int buttonId);
     };
 
     struct ButtonServiceStruct {
         ButtonServiceInterface *vtable;
     };
 
-    ButtonChannel *ButtonService_newButtonChannel(ButtonService *self,
-                                                  ButtonChannel *buttonChannel,
-                                                  int            buttonId);
-
-
-
+    ButtonChannel *ButtonService_initButtonChannel(
+            ButtonService *self,
+            ButtonChannel *buttonChannel,
+            int buttonId);
 
 
 #ifdef __cplusplus

@@ -1,29 +1,24 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
 #include <avrtk/adc/TestAdcListener.h>
 
 
-
-
+static void TestAdcListener_onSample(
+        AdcListener *baseSelf,
+        AdcSample   *sample);
 
 static AdcListenerInterface interface = {
-    .notify= &TestAdcListener_notify
+    .onSample= &TestAdcListener_onSample
 };
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 TestAdcListener *TestAdcListener_init(TestAdcListener *self) {
 
     self->base.vtable = &interface;
@@ -33,17 +28,12 @@ TestAdcListener *TestAdcListener_init(TestAdcListener *self) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
-void TestAdcListener_notify(AdcListener *baseSelf,
-                            AdcSample   *sample) {
+ */
+static void TestAdcListener_onSample(
+        AdcListener *baseSelf,
+        AdcSample   *sample) {
 
     TestAdcListener *self = (TestAdcListener *)baseSelf;
 
@@ -52,15 +42,9 @@ void TestAdcListener_notify(AdcListener *baseSelf,
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 AdcSample *TestAdcListener_getSample(TestAdcListener *self) {
 
     AdcSample *result = &self->sample;
@@ -69,15 +53,9 @@ AdcSample *TestAdcListener_getSample(TestAdcListener *self) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 int TestAdcListener_getNotifyCount(TestAdcListener *self) {
 
     long result = self->notifyCount;
@@ -86,29 +64,13 @@ int TestAdcListener_getNotifyCount(TestAdcListener *self) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 AdcListener *TestAdcListener_asAdcListener(TestAdcListener *self) {
 
     AdcListener *result = (AdcListener *)self;
 
     return result;
 }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
 

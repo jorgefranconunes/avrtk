@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -9,17 +9,12 @@
 #include <avrtk/adc/AdcChannel.h>
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
-AdcChannel *AdcChannel_init(AdcChannel *self,
-                            int         channelId) {
+ */
+AdcChannel *AdcChannel_init(
+        AdcChannel *self,
+        int channelId) {
 
     AdcSourceChannel_init(&self->sourceChannel, channelId);
     self->listenerListHead = NULL;
@@ -29,15 +24,9 @@ AdcChannel *AdcChannel_init(AdcChannel *self,
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 int AdcChannel_getChannelId(AdcChannel *self) {
 
     int result = AdcSourceChannel_getChannelId(&self->sourceChannel);
@@ -46,17 +35,12 @@ int AdcChannel_getChannelId(AdcChannel *self) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
-void AdcChannel_addListener(AdcChannel  *self,
-                            AdcListener *listener) {
+ */
+void AdcChannel_addListener(
+        AdcChannel *self,
+        AdcListener *listener) {
 
     listener->next = self->listenerListHead;
 
@@ -64,49 +48,28 @@ void AdcChannel_addListener(AdcChannel  *self,
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
-void AdcChannel_notify(AdcChannel *self,
-                       AdcSample  *sample) {
+ */
+void AdcChannel_onSample(
+        AdcChannel *self,
+        AdcSample  *sample) {
 
     for ( AdcListener *listener = self->listenerListHead;
           listener != NULL;
           listener = listener->next ) {
-        AdcListener_notify(listener, sample);
+        AdcListener_onSample(listener, sample);
     }
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 AdcSourceChannel *AdcChannel_getSourceChannel(AdcChannel *self) {
 
     AdcSourceChannel *result = &self->sourceChannel;
 
     return result;
 }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
 

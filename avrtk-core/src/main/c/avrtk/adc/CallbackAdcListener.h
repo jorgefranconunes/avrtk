@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -14,9 +14,6 @@ extern "C" {
 #include <avrtk/adc/AdcListener.h>
 
 
-
-
-
     typedef struct CallbackAdcListenerStruct CallbackAdcListener;
 
     struct CallbackAdcListenerStruct {
@@ -24,12 +21,9 @@ extern "C" {
         void (*callback)(AdcSample *sample);
     };
 
-    CallbackAdcListener *
-    CallbackAdcListener_init(CallbackAdcListener *self,
-                             void               (*callback)(AdcSample *sample));
-
-    void CallbackAdcListener_notify(AdcListener *baseSelf,
-                                    AdcSample   *sample);
+    CallbackAdcListener *CallbackAdcListener_init(
+            CallbackAdcListener *self,
+            void (*callback)(AdcSample *sample));
 
     AdcListener *CallbackAdcListener_asAdcListener(CallbackAdcListener *self);
 

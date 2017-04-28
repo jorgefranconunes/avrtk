@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -16,9 +16,6 @@ extern "C" {
 #include <avrtk/buttons/ButtonListener.h>
 
 
-
-
-
     typedef struct ButtonChannelStruct ButtonChannel;
 
     struct ButtonChannelStruct {
@@ -27,13 +24,11 @@ extern "C" {
 
     ButtonChannel *ButtonChannel_init(ButtonChannel *self);
 
-    void ButtonChannel_addButtonListener(ButtonChannel  *self,
-                                         ButtonListener *listener);
+    void ButtonChannel_addButtonListener(
+            ButtonChannel  *self,
+            ButtonListener *listener);
 
     bool ButtonChannel_isPressed(ButtonChannel *self);
-
-
-
 
 
 #ifdef __cplusplus

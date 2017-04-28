@@ -22,7 +22,8 @@ AVRTK_CORE_C_SOURCES += \
 
 AVRTK_CORE_C_SOURCES += \
 	avrtk/buttons/ButtonChannel.c \
-	avrtk/buttons/ButtonListener.c
+	avrtk/buttons/ButtonListener.c \
+	avrtk/buttons/ButtonService.c
 
 AVRTK_CORE_C_SOURCES += \
 	avrtk/events/Event.c \
