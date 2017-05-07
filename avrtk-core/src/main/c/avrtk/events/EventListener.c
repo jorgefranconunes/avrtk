@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  *//**
  *
@@ -13,24 +13,15 @@
 #include <avrtk/events/EventListener.h>
 
 
-
-
-
-/**********************************************************************//**
- *
+/**
  * @interface EventListener avrtk/events/EventListener.h <avrtk/events/EventListener.h>
  * @ingroup avrtk_events
  *
  * @brief A consumer of events.
- *
- **************************************************************************/
+ */
 
 
-
-
-
-/**********************************************************************//**
- *
+/**
  * Consumes an event.
  *
  * @public @memberof EventListener
@@ -39,22 +30,11 @@
  * @param self 
  *
  * @param event The Event being passed to this EventListener.
- *
- **************************************************************************/
+ */
+void EventListener_onEvent(
+        EventListener *self,
+        Event         *event) {
 
-void EventListener_notify(EventListener *self,
-                          Event         *event) {
-
-    self->vtable->notify(self, event);
+    self->vtable->onEvent(self, event);
 }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
 

@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -11,27 +11,24 @@
 #include <avrtk/events/TestEventListener.h>
 
 
-
+static void TestEventListener_onEvent(
+        EventListener *baseSelf,
+        Event *event);
 
 
 static EventListenerInterface interface = {
-    .notify  = TestEventListener_notify
+    .onEvent  = TestEventListener_onEvent
 };
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
-TestEventListener *TestEventListener_init(TestEventListener *self,
-                                          EventType         *eventType,
-                                          int                maxEventCount,
-                                          EventManager      *eventManager) {
+ */
+TestEventListener *TestEventListener_init(
+        TestEventListener *self,
+        EventType *eventType,
+        int maxEventCount,
+        EventManager *eventManager) {
 
     self->base.vtable   = &interface;
     self->eventType     = eventType;
@@ -43,17 +40,12 @@ TestEventListener *TestEventListener_init(TestEventListener *self,
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
-void TestEventListener_notify(EventListener *baseSelf,
-                              Event         *event) {
+ */
+static void TestEventListener_onEvent(
+        EventListener *baseSelf,
+        Event *event) {
 
     TestEventListener *self              = (TestEventListener *)baseSelf;
     EventType         *expectedEventType = self->eventType;
@@ -72,15 +64,9 @@ void TestEventListener_notify(EventListener *baseSelf,
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 int TestEventListener_getEventCount(TestEventListener *self) {
 
     int result = self->eventCount;
@@ -89,29 +75,13 @@ int TestEventListener_getEventCount(TestEventListener *self) {
 }
 
 
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
-
+ */
 EventListener *TestEventListener_asEventListener(TestEventListener *self) {
 
     EventListener *result = (EventListener *)self;
 
     return result;
 }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
 

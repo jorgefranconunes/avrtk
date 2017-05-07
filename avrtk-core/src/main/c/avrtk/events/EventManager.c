@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -220,7 +220,7 @@ static void EventManager_fireEvent(EventManager *self,
         bool       isInterested = (eventType==listenerType);
 
         if ( isInterested ) {
-            EventListener_notify(listener, event);
+            EventListener_onEvent(listener, event);
         }
     }
 }

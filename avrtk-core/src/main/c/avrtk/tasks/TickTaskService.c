@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014-2015 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  *//**
  *
@@ -48,7 +48,7 @@ static void TickTaskService_addPeriodicTask(TaskService *baseSelf,
 static void TickTaskService_cancelTask(TaskService *self,
                                        Task        *task);
 
-static void TickTaskService_tickEvent(TickTaskService *self);
+static void TickTaskService_onTick(TickTaskService *self);
 
 
 static TaskServiceInterface interface = {
@@ -70,12 +70,12 @@ TaskServiceTickListener_init(TaskServiceTickListener *self,
                              TickTaskService         *taskService);
 
 static void
-TaskServiceTickListener_notify(EventListener *self,
+TaskServiceTickListener_onEvent(EventListener *self,
                                Event         *Event);
 
 
 static EventListenerInterface taskServiceEventListenerInterface = {
-    .notify = TaskServiceTickListener_notify
+    .onEvent = TaskServiceTickListener_onEvent
 };
 
 
@@ -272,7 +272,7 @@ static void TickTaskService_cancelTask(TaskService *baseSelf,
  *
  **************************************************************************/
 
-static void TickTaskService_tickEvent(TickTaskService *self) {
+static void TickTaskService_onTick(TickTaskService *self) {
 
     TaskScheduler_runPendingTasks(&self->scheduler);
 }
@@ -323,12 +323,13 @@ TaskServiceTickListener_asEventListener(TaskServiceTickListener *self) {
  *
  **************************************************************************/
 
-static void TaskServiceTickListener_notify(EventListener *baseSelf,
-                                           Event         *Event) {
+static void TaskServiceTickListener_onEvent(
+        EventListener *baseSelf,
+        Event *Event) {
 
     TaskServiceTickListener *self = (TaskServiceTickListener *)baseSelf;
 
-    TickTaskService_tickEvent(self->taskService);
+    TickTaskService_onTick(self->taskService);
 }
 
 

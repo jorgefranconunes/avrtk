@@ -19,7 +19,7 @@ extern "C" {
     struct TestAdcListenerStruct {
         AdcListener base;
         AdcSample   sample;
-        int         notifyCount;
+        int         eventCount;
     };
 
 
@@ -27,7 +27,7 @@ extern "C" {
 
     AdcSample *TestAdcListener_getSample(TestAdcListener *self);
 
-    int TestAdcListener_getNotifyCount(TestAdcListener *self);
+    int TestAdcListener_getEventCount(TestAdcListener *self);
 
     AdcListener *TestAdcListener_asAdcListener(TestAdcListener *self);
 

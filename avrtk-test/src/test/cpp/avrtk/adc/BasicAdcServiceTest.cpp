@@ -178,10 +178,10 @@ TEST(BasicAdcService, noEventWithOneChannel) {
 
     AdcChannel_addListener(adcChannel,
                            TestAdcListener_asAdcListener(adcListener));
-    CHECK_EQUAL( 0, TestAdcListener_getNotifyCount(adcListener));
+    CHECK_EQUAL( 0, TestAdcListener_getEventCount(adcListener));
 
     EventManager_sweep(_eventManager);
-    CHECK_EQUAL( 0, TestAdcListener_getNotifyCount(adcListener));
+    CHECK_EQUAL( 0, TestAdcListener_getEventCount(adcListener));
 }
 
 
@@ -198,13 +198,13 @@ TEST(BasicAdcService, noEventWithOneChannelTwice) {
 
     AdcChannel_addListener(adcChannel,
                            TestAdcListener_asAdcListener(adcListener));
-    CHECK_EQUAL( 0, TestAdcListener_getNotifyCount(adcListener));
+    CHECK_EQUAL( 0, TestAdcListener_getEventCount(adcListener));
 
     EventManager_sweep(_eventManager);
-    CHECK_EQUAL( 0, TestAdcListener_getNotifyCount(adcListener));
+    CHECK_EQUAL( 0, TestAdcListener_getEventCount(adcListener));
 
     EventManager_sweep(_eventManager);
-    CHECK_EQUAL( 0, TestAdcListener_getNotifyCount(adcListener));
+    CHECK_EQUAL( 0, TestAdcListener_getEventCount(adcListener));
 }
 
 
@@ -221,18 +221,18 @@ TEST(BasicAdcService, oneEventOneChannel) {
 
     AdcChannel_addListener(adcChannel,
                            TestAdcListener_asAdcListener(adcListener));
-    CHECK_EQUAL( 0, TestAdcListener_getNotifyCount(adcListener));
+    CHECK_EQUAL( 0, TestAdcListener_getEventCount(adcListener));
 
     EventManager_sweep(_eventManager);
-    CHECK_EQUAL( 0, TestAdcListener_getNotifyCount(adcListener));
+    CHECK_EQUAL( 0, TestAdcListener_getEventCount(adcListener));
 
     setMyAdcValue(456);
     EventManager_sweep(_eventManager);
-    CHECK_EQUAL( 1, TestAdcListener_getNotifyCount(adcListener));
+    CHECK_EQUAL( 1, TestAdcListener_getEventCount(adcListener));
     checkSample( CHANNEL1_ID, 456, TestAdcListener_getSample(adcListener));
 
     EventManager_sweep(_eventManager);
-    CHECK_EQUAL( 1, TestAdcListener_getNotifyCount(adcListener));
+    CHECK_EQUAL( 1, TestAdcListener_getEventCount(adcListener));
 }
 
 
@@ -252,16 +252,16 @@ TEST(BasicAdcService, twoEventsOneChannel) {
 
     setMyAdcValue(456);
     EventManager_sweep(_eventManager);
-    CHECK_EQUAL( 1, TestAdcListener_getNotifyCount(adcListener));
+    CHECK_EQUAL( 1, TestAdcListener_getEventCount(adcListener));
     checkSample( CHANNEL1_ID, 456, TestAdcListener_getSample(adcListener));
 
     setMyAdcValue(789);
     EventManager_sweep(_eventManager);
-    CHECK_EQUAL( 2, TestAdcListener_getNotifyCount(adcListener));
+    CHECK_EQUAL( 2, TestAdcListener_getEventCount(adcListener));
     checkSample( CHANNEL1_ID, 789, TestAdcListener_getSample(adcListener));
 
     EventManager_sweep(_eventManager);
-    CHECK_EQUAL( 2, TestAdcListener_getNotifyCount(adcListener));
+    CHECK_EQUAL( 2, TestAdcListener_getEventCount(adcListener));
 }
 
 

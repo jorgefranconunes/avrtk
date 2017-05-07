@@ -7,7 +7,7 @@
 #include <avrtk/adc/AdcService.h>
 
 
-/**//**
+/**
  * @interface AdcService avrtk/adc/AdcService.h <avrtk/adc/AdcService.h>
  * @ingroup avrtk_adc
  *
@@ -15,7 +15,7 @@
  */
 
 
-/**//**
+/**
  * Starts the AdcService.
  *
  * @public @memberof AdcService
@@ -31,7 +31,7 @@ void AdcService_start(AdcService  *self) {
 }
 
 
-/**//**
+/**
  * Initializes a channel to receive ADC samples.
  *
  * @public @memberof AdcService

@@ -22,7 +22,7 @@ static AdcListenerInterface interface = {
 TestAdcListener *TestAdcListener_init(TestAdcListener *self) {
 
     self->base.vtable = &interface;
-    self->notifyCount = 0;
+    self->eventCount = 0;
 
     return self;
 }
@@ -38,7 +38,7 @@ static void TestAdcListener_onSample(
     TestAdcListener *self = (TestAdcListener *)baseSelf;
 
     AdcSample_initFromSample(&self->sample, sample);
-    ++self->notifyCount;
+    ++self->eventCount;
 }
 
 
@@ -56,9 +56,9 @@ AdcSample *TestAdcListener_getSample(TestAdcListener *self) {
 /**
  *
  */
-int TestAdcListener_getNotifyCount(TestAdcListener *self) {
+int TestAdcListener_getEventCount(TestAdcListener *self) {
 
-    long result = self->notifyCount;
+    long result = self->eventCount;
 
     return result;
 }

@@ -25,7 +25,7 @@ extern "C" {
     ButtonChannel *ButtonChannel_init(ButtonChannel *self);
 
     void ButtonChannel_addButtonListener(
-            ButtonChannel  *self,
+            ButtonChannel *self,
             ButtonListener *listener);
 
     bool ButtonChannel_isPressed(ButtonChannel *self);

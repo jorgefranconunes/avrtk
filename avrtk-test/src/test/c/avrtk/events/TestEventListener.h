@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -16,9 +16,6 @@ extern "C" {
 #include <avrtk/events/EventType.h>
 
 
-
-
-
     struct TestEventListenerStruct {
         EventListener base;
         EventType    *eventType;
@@ -28,20 +25,15 @@ extern "C" {
     };
     typedef struct TestEventListenerStruct TestEventListener;
 
-    TestEventListener *TestEventListener_init(TestEventListener *self,
-                                              EventType         *eventType,
-                                              int                maxEventCount,
-                                              EventManager      *eventManager);
-
-    void TestEventListener_notify(EventListener *self,
-                                  Event         *event);
+    TestEventListener *TestEventListener_init(
+            TestEventListener *self,
+            EventType *eventType,
+            int maxEventCount,
+            EventManager *eventManager);
 
     int TestEventListener_getEventCount(TestEventListener *self);
 
     EventListener *TestEventListener_asEventListener(TestEventListener *self);
-
-
-
 
 
 #ifdef __cplusplus

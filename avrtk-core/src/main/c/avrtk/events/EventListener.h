@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2014-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -21,7 +21,7 @@ extern "C" {
 
     typedef struct EventListenerInterfaceStruct EventListenerInterface;
     struct EventListenerInterfaceStruct {
-        void (*notify)(EventListener*, Event*);
+        void (*onEvent)(EventListener*, Event*);
     };
 
     struct EventListenerStruct {
@@ -30,8 +30,9 @@ extern "C" {
         EventListener          *next;
     };
 
-    void EventListener_notify(EventListener *self,
-                              Event         *event);
+    void EventListener_onEvent(
+            EventListener *self,
+            Event *event);
 
 
 

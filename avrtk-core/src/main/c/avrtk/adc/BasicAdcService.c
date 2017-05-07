@@ -50,12 +50,12 @@ static void AdcServiceAdcListener_init(
         AdcServiceAdcListener *self,
         BasicAdcService *adcService);
 
-static void AdcServiceAdcListener_notify(
+static void AdcServiceAdcListener_onEvent(
         EventListener *self,
         Event *Event);
 
 static EventListenerInterface adcServiceEventListenerInterface = {
-    .notify = AdcServiceAdcListener_notify
+    .onEvent = AdcServiceAdcListener_onEvent
 };
 
 
@@ -176,7 +176,7 @@ static EventListener *AdcServiceAdcListener_asEventListener(
 /**
  *
  */
-static void AdcServiceAdcListener_notify(
+static void AdcServiceAdcListener_onEvent(
         EventListener *baseSelf,
         Event *event) {
 

@@ -84,7 +84,7 @@ TaskScheduler *TaskScheduler_init(TaskScheduler *self,
 int TaskScheduler_getTaskCount(TaskScheduler *self) {
 
     int count = 0;
-    
+
     for ( Task *task=self->taskListHead; NULL!=task; task=task->next ) {
         ++count;
     }
@@ -161,7 +161,7 @@ void TaskScheduler_addPeriodicTask(TaskScheduler *self,
                                    long           period) {
 
     long now  = Clock_currentTimeMillis(self->clock);
-    long when = now+delay;
+    long when = now + delay;
 
     task->when   = when;
     task->period = period;

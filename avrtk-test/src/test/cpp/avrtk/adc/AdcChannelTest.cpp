@@ -66,7 +66,7 @@ TEST_GROUP(AdcChannel) {
             for ( int j=0; j<listenerCount; ++j ) {
                 TestAdcListener *testListener = &listenerList[j];
 
-                CHECK_EQUAL( i, TestAdcListener_getNotifyCount(testListener) );
+                CHECK_EQUAL( i, TestAdcListener_getEventCount(testListener) );
             }
 
             AdcChannel_onSample(_channel, sample);
@@ -75,7 +75,7 @@ TEST_GROUP(AdcChannel) {
                 TestAdcListener *testListener = &listenerList[j];
 
                 CHECK_EQUAL( i+1,
-                             TestAdcListener_getNotifyCount(testListener) );
+                             TestAdcListener_getEventCount(testListener) );
 
                 AdcSample *lSample =
                     TestAdcListener_getSample(testListener);
@@ -87,7 +87,7 @@ TEST_GROUP(AdcChannel) {
                 TestAdcListener *testListener = &listenerList[j];
 
                 CHECK_EQUAL( i+1,
-                             TestAdcListener_getNotifyCount(testListener) );
+                             TestAdcListener_getEventCount(testListener) );
 
                 AdcSample *lSample =
                     TestAdcListener_getSample(testListener);
@@ -99,7 +99,7 @@ TEST_GROUP(AdcChannel) {
         for ( int i=0; i<listenerCount; ++i ) {
             CHECK_EQUAL(
                     sampleCount,
-                    TestAdcListener_getNotifyCount(&listenerList[i]));
+                    TestAdcListener_getEventCount(&listenerList[i]));
         }
     }
 
@@ -153,10 +153,10 @@ TEST(AdcChannel, notifyWithOneListener) {
     AdcSample *sample = AdcSample_init(&sampleData, CHANNEL1_ID, 123);
 
     AdcChannel_addListener(_channel, listener);
-    CHECK_EQUAL( 0, TestAdcListener_getNotifyCount(testListener) );
+    CHECK_EQUAL( 0, TestAdcListener_getEventCount(testListener) );
 
     AdcChannel_onSample(_channel, sample);
-    CHECK_EQUAL( 1, TestAdcListener_getNotifyCount(testListener) );
+    CHECK_EQUAL( 1, TestAdcListener_getEventCount(testListener) );
 
     AdcSample *lSample = TestAdcListener_getSample(testListener);
     CHECK_EQUAL( CHANNEL1_ID, AdcSample_getChannelId(lSample) );
